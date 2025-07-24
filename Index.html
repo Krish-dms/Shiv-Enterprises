@@ -1,0 +1,3982 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Billing Software</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #ff6b6b;
+            --dark: #2c3e50;
+            --light: #f5f7fa;
+            --success: #2ecc71;
+            --warning: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header h2 {
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .sidebar-header h2 i {
+            margin-right: 10px;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin: 5px 0;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #555;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: rgba(74, 107, 255, 0.1);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+        }
+        
+        .nav-link i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        /* Dashboard Cards */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-title {
+            font-size: 1rem;
+            color: #777;
+        }
+        
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .card-icon.invoice {
+            background: var(--primary);
+        }
+        
+        .card-icon.purchase {
+            background: var(--success);
+        }
+        
+        .card-icon.credit {
+            background: var(--warning);
+        }
+        
+        .card-icon.debit {
+            background: var(--secondary);
+        }
+        
+        .card-value {
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .card-footer {
+            font-size: 0.8rem;
+            color: #777;
+        }
+        
+        /* Content Sections */
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        /* Button Styles */
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .btn i {
+            margin-right: 5px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a5bef;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #ff5252;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+        
+        /* Table Styles */
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f5f5f5;
+            font-weight: 500;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        /* Invoice Template */
+        .invoice-template {
+            display: none;
+            padding: 30px;
+            background: white;
+            margin-top: 20px;
+        }
+        
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .invoice-title {
+            font-size: 24px;
+            color: var(--primary);
+        }
+        
+        .invoice-details {
+            margin: 30px 0;
+        }
+        
+        .invoice-table {
+            margin: 30px 0;
+        }
+        
+        .invoice-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        /* Company Details Styles */
+        .company-logo {
+            max-width: 150px;
+            max-height: 100px;
+            margin-bottom: 20px;
+        }
+        
+        .company-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .company-info-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* Print Styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .invoice-template, .invoice-template * {
+                visibility: visible;
+            }
+            .invoice-template {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+            
+            .sidebar-header h2 span, .nav-link span {
+                display: none;
+            }
+            
+            .sidebar-header h2 i, .nav-link i {
+                margin-right: 0;
+                font-size: 24px;
+            }
+            
+            .nav-link {
+                justify-content: center;
+                padding: 15px 0;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="material-icons">point_of_sale</i> <span>Premium Billing</span></h2>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" data-section="dashboard">
+                    <i class="material-icons">dashboard</i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="company">
+                    <i class="material-icons">business</i>
+                    <span>Company Details</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="invoices">
+                    <i class="material-icons">receipt</i>
+                    <span>Invoices</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="purchases">
+                    <i class="material-icons">shopping_cart</i>
+                    <span>Purchases</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="credit-notes">
+                    <i class="material-icons">assignment_returned</i>
+                    <span>Credit Notes</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="debit-notes">
+                    <i class="material-icons">assignment_return</i>
+                    <span>Debit Notes</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="customers">
+                    <i class="material-icons">people</i>
+                    <span>Customers</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="suppliers">
+                    <i class="material-icons">local_shipping</i>
+                    <span>Suppliers</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="products">
+                    <i class="material-icons">inventory</i>
+                    <span>Products</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="header">
+            <h1 id="page-title">Dashboard</h1>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=4a6bff&color=fff" alt="User">
+                <span>Admin</span>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="content-section active">
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Total Invoices</div>
+                        <div class="card-icon invoice">
+                            <i class="material-icons">receipt</i>
+                        </div>
+                    </div>
+                    <div class="card-value" id="total-invoices">0</div>
+                    <div class="card-footer">This month: <span id="month-invoices">0</span></div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Total Purchases</div>
+                        <div class="card-icon purchase">
+                            <i class="material-icons">shopping_cart</i>
+                        </div>
+                    </div>
+                    <div class="card-value" id="total-purchases">0</div>
+                    <div class="card-footer">This month: <span id="month-purchases">0</span></div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Credit Notes</div>
+                        <div class="card-icon credit">
+                            <i class="material-icons">assignment_returned</i>
+                        </div>
+                    </div>
+                    <div class="card-value" id="total-credits">0</div>
+                    <div class="card-footer">This month: <span id="month-credits">0</span></div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Debit Notes</div>
+                        <div class="card-icon debit">
+                            <i class="material-icons">assignment_return</i>
+                        </div>
+                    </div>
+                    <div class="card-value" id="total-debits">0</div>
+                    <div class="card-footer">This month: <span id="month-debits">0</span></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-header">
+                    <h3 class="section-title"><i class="material-icons">history</i> Recent Transactions</h3>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Number</th>
+                                <th>Customer/Supplier</th>
+                                <th class="text-right">Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-transactions">
+                            <tr>
+                                <td colspan="6" class="text-center">No recent transactions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Company Details Section -->
+        <div id="company" class="content-section">
+            <div class="section-header">
+                <h3 class="section-title"><i class="material-icons">business</i> Company Details</h3>
+                <button class="btn btn-primary" id="edit-company">
+                    <i class="material-icons">edit</i> Edit Details
+                </button>
+            </div>
+
+            <div id="company-view">
+                <div class="company-details-grid">
+                    <div class="company-info-card">
+                        <h4>Basic Information</h4>
+                        <div id="company-logo-container">
+                            <img id="company-logo-preview" class="company-logo" src="" alt="Company Logo">
+                        </div>
+                        <p><strong>Company Name:</strong> <span id="display-company-name"></span></p>
+                        <p><strong>Tagline:</strong> <span id="display-company-tagline"></span></p>
+                        <p><strong>Registration Number:</strong> <span id="display-company-registration"></span></p>
+                        <p><strong>GSTIN:</strong> <span id="display-company-gstin"></span></p>
+                        <p><strong>PAN:</strong> <span id="display-company-pan"></span></p>
+                    </div>
+                    
+                    <div class="company-info-card">
+                        <h4>Contact Information</h4>
+                        <p><strong>Address:</strong> <span id="display-company-address"></span></p>
+                        <p><strong>City:</strong> <span id="display-company-city"></span></p>
+                        <p><strong>State:</strong> <span id="display-company-state"></span></p>
+                        <p><strong>Country:</strong> <span id="display-company-country"></span></p>
+                        <p><strong>Pincode:</strong> <span id="display-company-pincode"></span></p>
+                        <p><strong>Phone:</strong> <span id="display-company-phone"></span></p>
+                        <p><strong>Email:</strong> <span id="display-company-email"></span></p>
+                        <p><strong>Website:</strong> <span id="display-company-website"></span></p>
+                    </div>
+                    
+                    <div class="company-info-card">
+                        <h4>Bank Details</h4>
+                        <p><strong>Bank Name:</strong> <span id="display-company-bank-name"></span></p>
+                        <p><strong>Account Name:</strong> <span id="display-company-account-name"></span></p>
+                        <p><strong>Account Number:</strong> <span id="display-company-account-number"></span></p>
+                        <p><strong>IFSC Code:</strong> <span id="display-company-ifsc"></span></p>
+                        <p><strong>Branch:</strong> <span id="display-company-branch"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="company-form" style="display: none;">
+                <form id="company-details-form">
+                    <div class="section-header">
+                        <h4 class="section-title"><i class="material-icons">business</i> Basic Information</h4>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company-name">Company Name *</label>
+                            <input type="text" id="company-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company-tagline">Tagline</label>
+                            <input type="text" id="company-tagline">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company-registration">Registration Number</label>
+                            <input type="text" id="company-registration">
+                        </div>
+                        <div class="form-group">
+                            <label for="company-gstin">GSTIN</label>
+                            <input type="text" id="company-gstin">
+                        </div>
+                        <div class="form-group">
+                            <label for="company-pan">PAN</label>
+                            <input type="text" id="company-pan">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company-logo">Company Logo</label>
+                        <input type="file" id="company-logo" accept="image/*">
+                        <div id="logo-preview-container" style="margin-top: 10px;"></div>
+                    </div>
+                    
+                    <div class="section-header">
+                        <h4 class="section-title"><i class="material-icons">location_on</i> Contact Information</h4>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company-address">Address *</label>
+                        <textarea id="company-address" rows="2" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company-city">City *</label>
+                            <input type="text" id="company-city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company-state">State *</label>
+                            <input type="text" id="company-state" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company-country">Country *</label>
+                            <input type="text" id="company-country" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company-pincode">Pincode *</label>
+                            <input type="text" id="company-pincode" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company-phone">Phone *</label>
+                            <input type="text" id="company-phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company-email">Email *</label>
+                            <input type="email" id="company-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company-website">Website</label>
+                            <input type="url" id="company-website">
+                        </div>
+                    </div>
+                    
+                    <div class="section-header">
+                        <h4 class="section-title"><i class="material-icons">account_balance</i> Bank Details</h4>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company-bank-name">Bank Name *</label>
+                            <input type="text" id="company-bank-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company-account-name">Account Name *</label>
+                            <input type="text" id="company-account-name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company-account-number">Account Number *</label>
+                            <input type="text" id="company-account-number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company-ifsc">IFSC Code *</label>
+                            <input type="text" id="company-ifsc" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company-branch">Branch *</label>
+                            <input type="text" id="company-branch" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="material-icons">save</i> Save Details
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="cancel-company-edit">
+                            <i class="material-icons">cancel</i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Invoices Section -->
+        <div id="invoices" class="content-section">
+            <div class="section-header">
+                <h3 class="section-title"><i class="material-icons">receipt</i> Invoice Management</h3>
+                <button class="btn btn-primary no-print" id="new-invoice">
+                    <i class="material-icons">add</i> New Invoice
+                </button>
+            </div>
+
+            <div id="invoice-list" class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th class="no-print">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoice-list-body">
+                        <tr>
+                            <td colspan="6" class="text-center">No invoices found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="invoice-form" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="invoice-number">Invoice Number</label>
+                        <input type="text" id="invoice-number" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="invoice-date">Date</label>
+                        <input type="date" id="invoice-date">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customer-name">Customer Name</label>
+                        <select id="customer-name" class="customer-select">
+                            <option value="">Select Customer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-phone">Phone</label>
+                        <input type="text" id="customer-phone" placeholder="Enter phone number" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="customer-address">Address</label>
+                    <textarea id="customer-address" rows="2" placeholder="Enter customer address" readonly></textarea>
+                </div>
+
+                <div class="section-header">
+                    <h4 class="section-title"><i class="material-icons">list_alt</i> Items</h4>
+                    <button type="button" class="btn btn-secondary" id="add-item">
+                        <i class="material-icons">add</i> Add Item
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="invoice-items">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Description</th>
+                                <th>Qty</th>
+                                <th>Rate</th>
+                                <th>Amount</th>
+                                <th class="no-print"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoice-items-body">
+                            <tr>
+                                <td>
+                                    <select class="item-name product-select">
+                                        <option value="">Select Product</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="item-desc" placeholder="Description" readonly></td>
+                                <td><input type="number" class="item-qty" value="1" min="1"></td>
+                                <td><input type="number" class="item-rate" placeholder="0.00" readonly></td>
+                                <td class="item-amount">0.00</td>
+                                <td class="no-print"><button type="button" class="btn btn-secondary" onclick="removeItem(this)"><i class="material-icons">delete</i></button></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-right">Subtotal</td>
+                                <td id="invoice-subtotal">0.00</td>
+                                <td class="no-print"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right">Tax (10%)</td>
+                                <td id="invoice-tax">0.00</td>
+                                <td class="no-print"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right">Total</td>
+                                <td id="invoice-total">0.00</td>
+                                <td class="no-print"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <label for="invoice-notes">Notes</label>
+                    <textarea id="invoice-notes" rows="2" placeholder="Any additional notes"></textarea>
+                </div>
+
+                <div class="form-group no-print">
+                    <button type="button" class="btn btn-primary" id="save-invoice">
+                        <i class="material-icons">save</i> Save Invoice
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancel-invoice">
+                        <i class="material-icons">cancel</i> Cancel
+                    </button>
+                    <button type="button" class="btn btn-success" id="print-invoice" style="display: none;">
+                        <i class="material-icons">print</i> Print Invoice
+                    </button>
+                </div>
+            </div>
+
+            <div id="invoice-template" class="invoice-template">
+                <div class="invoice-header">
+                    <div>
+                        <div class="invoice-title">INVOICE</div>
+                        <div id="display-invoice-number">Invoice #: </div>
+                        <div id="display-invoice-date">Date: </div>
+                    </div>
+                    <div>
+                        <div style="text-align: right;">
+                            <img id="invoice-company-logo" class="company-logo" src="" alt="Company Logo">
+                            <h3 id="invoice-company-name"></h3>
+                            <div id="invoice-company-details"></div>
+                        </div>
+                        <h3 id="display-customer-name"></h3>
+                        <div id="display-customer-phone"></div>
+                        <div id="display-customer-address"></div>
+                    </div>
+                </div>
+                
+                <div class="invoice-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Description</th>
+                                <th>Qty</th>
+                                <th>Rate</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="display-invoice-items">
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="text-right invoice-total">
+                    <div>Subtotal: ₹<span id="display-subtotal">0.00</span></div>
+                    <div>Tax (10%): ₹<span id="display-tax">0.00</span></div>
+                    <div><strong>Total: ₹<span id="display-total">0.00</span></strong></div>
+                </div>
+                
+                <div id="display-notes" style="margin-top: 30px; font-style: italic;"></div>
+                
+                <div style="margin-top: 50px;">
+                    <div style="float: left; width: 50%;">
+                        <p>Customer Signature</p>
+                        <p style="border-top: 1px dashed #333; width: 200px; margin-top: 40px;"></p>
+                    </div>
+                    <div style="float: right; width: 50%; text-align: right;">
+                        <p>For <span id="invoice-company-name-footer"></span></p>
+                        <p style="border-top: 1px dashed #333; width: 200px; margin-top: 40px; margin-left: auto;"></p>
+                        <p>Authorized Signatory</p>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+                
+                <div class="no-print" style="margin-top: 30px;">
+                    <button class="btn btn-primary" onclick="window.print()">
+                        <i class="material-icons">print</i> Print
+                    </button>
+                    <button class="btn btn-secondary" onclick="closeInvoicePreview()">
+                        <i class="material-icons">close</i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Purchases Section -->
+        <div id="purchases" class="content-section">
+            <div class="section-header">
+                <h3 class="section-title"><i class="material-icons">shopping_cart</i> Purchase Orders</h3>
+                <button class="btn btn-primary no-print" id="new-purchase">
+                    <i class="material-icons">add</i> New Purchase
+                </button>
+            </div>
+
+            <div id="purchase-list" class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>PO #</th>
+                            <th>Date</th>
+                            <th>Supplier</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th class="no-print">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="purchase-list-body">
+                        <tr>
+                            <td colspan="6" class="text-center">No purchase orders found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="purchase-form" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="purchase-number">PO Number</label>
+                        <input type="text" id="purchase-number" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="purchase-date">Date</label>
+                        <input type="date" id="purchase-date">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supplier-name">Supplier Name</label>
+                        <select id="supplier-name" class="supplier-select">
+                            <option value="">Select Supplier</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="supplier-phone">Phone</label>
+                        <input type="text" id="supplier-phone" placeholder="Enter phone number" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="supplier-address">Address</label>
+                    <textarea id="supplier-address" rows="2" placeholder="Enter supplier address" readonly></textarea>
+                </div>
+
+                <div class="section-header">
+                    <h4 class="section-title"><i class="material-icons">list_alt</i> Items</h4>
+                    <button type="button" class="btn btn-secondary" id="add-purchase-item">
+                        <i class="material-icons">add</i> Add Item
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="purchase-items">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Description</th>
+                                <th>Qty</th>
+                                <th>Rate</th>
+                                <th>Amount</th>
+                                <th class="no-print"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="purchase-items-body">
+                            <tr>
+                                <td>
+                                    <select class="item-name product-select">
+                                        <option value="">Select Product</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="item-desc" placeholder="Description" readonly></td>
+                                <td><input type="number" class="item-qty" value="1" min="1"></td>
+                                <td><input type="number" class="item-rate" placeholder="0.00"></td>
+                                <td class="item-amount">0.00</td>
+                                <td class="no-print"><button type="button" class="btn btn-secondary" onclick="removePurchaseItem(this)"><i class="material-icons">delete</i></button></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-right">Subtotal</td>
+                                <td id="purchase-subtotal">0.00</td>
+                                <td class="no-print"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right">Tax (10%)</td>
+                                <td id="purchase-tax">0.00</td>
+                                <td class="no-print"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right">Total</td>
+                                <td id="purchase-total">0.00</td>
+                                <td class="no-print"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <label for="purchase-notes">Notes</label>
+                    <textarea id="purchase-notes" rows="2" placeholder="Any additional notes"></textarea>
+                </div>
+
+                <div class="form-group no-print">
+                    <button type="button" class="btn btn-primary" id="save-purchase">
+                        <i class="material-icons">save</i> Save Purchase
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancel-purchase">
+                        <i class="material-icons">cancel</i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Credit Notes Section -->
+        <div id="credit-notes" class="content-section">
+            <div class="section-header">
+                <h3 class="section-title"><i class="material-icons">assignment_returned</i> Credit Notes</h3>
+                <button class="btn btn-primary no-print" id="new-credit-note">
+                    <i class="material-icons">add</i> New Credit Note
+                </button>
+            </div>
+
+            <div id="credit-note-list" class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>CN #</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>Reference</th>
+                            <th class="no-print">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="credit-note-list-body">
+                        <tr>
+                            <td colspan="6" class="text-center">No credit notes found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="credit-note-form" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="credit-note-number">Credit Note #</label>
+                        <input type="text" id="credit-note-number" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="credit-note-date">Date</label>
+                        <input type="date" id="credit-note-date">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="credit-customer-name">Customer Name</label>
+                        <select id="credit-customer-name" class="customer-select">
+                            <option value="">Select Customer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="credit-reference">Reference Invoice #</label>
+                        <select id="credit-reference" class="invoice-select">
+                            <option value="">Select Invoice</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="credit-reason">Reason</label>
+                    <select id="credit-reason">
+                        <option value="Return">Product Return</option>
+                        <option value="Discount">Discount</option>
+                        <option value="Cancellation">Order Cancellation</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="section-header">
+                    <h4 class="section-title"><i class="material-icons">list_alt</i> Items</h4>
+                    <button type="button" class="btn btn-secondary" id="add-credit-item">
+                        <i class="material-icons">add</i> Add Item
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="credit-items">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Description</th>
+                                <th>Qty</th>
+                                <th>Rate</th>
+                                <th>Amount</th>
+                                <th class="no-print"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="credit-items-body">
+                            <tr>
+                                <td>
+                                    <select class="item-name product-select">
+                                        <option value="">Select Product</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="item-desc" placeholder="Description" readonly></td>
+                                <td><input type="number" class="item-qty" value="1" min="1"></td>
+                                <td><input type="number" class="item-rate" placeholder="0.00" readonly></td>
+                                <td class="item-amount">0.00</td>
+                                <td class="no-print"><button type="button" class="btn btn-secondary" onclick="removeCreditItem(this)"><i class="material-icons">delete</i></button></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-right">Subtotal</td>
+                                <td id="credit-subtotal">0.00</td>
+                                <td class="no-print"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right">Tax (10%)</td>
+                                <td id="credit-tax">0.00</td>
+                                <td class="no-print"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right">Total</td>
+                                <td id="credit-total">0.00</td>
+                                <td class="no-print"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <label for="credit-notes">Notes</label>
+                    <textarea id="credit-notes" rows="2" placeholder="Any additional notes"></textarea>
+                </div>
+
+                <div class="form-group no-print">
+                    <button type="button" class="btn btn-primary" id="save-credit-note">
+                        <i class="material-icons">save</i> Save Credit Note
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancel-credit-note">
+                        <i class="material-icons">cancel</i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Debit Notes Section -->
+        <div id="debit-notes" class="content-section">
+            <div class="section-header">
+                <h3 class="section-title"><i class="material-icons">assignment_return</i> Debit Notes</h3>
+                <button class="btn btn-primary no-print" id="new-debit-note">
+                    <i class="material-icons">add</i> New Debit Note
+                </button>
+            </div>
+
+            <div id="debit-note-list" class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DN #</th>
+                            <th>Date</th>
+                            <th>Supplier</th>
+                            <th>Amount</th>
+                            <th>Reference</th>
+                            <th class="no-print">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="debit-note-list-body">
+                        <tr>
+                            <td colspan="6" class="text-center">No debit notes found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="debit-note-form" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="debit-note-number">Debit Note #</label>
+                        <input type="text" id="debit-note-number" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="debit-note-date">Date</label>
+                        <input type="date" id="debit-note-date">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="debit-supplier-name">Supplier Name</label>
+                        <select id="debit-supplier-name" class="supplier-select">
+                            <option value="">Select Supplier</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="debit-reference">Reference PO #</label>
+                        <select id="debit-reference" class="purchase-select">
+                            <option value="">Select Purchase Order</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="debit-reason">Reason</label>
+                    <select id="debit-reason">
+                        <option value="Return">Product Return</option>
+                        <option value="Damage">Damaged Goods</option>
+                        <option value="Shortage">Short Shipment</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="section-header">
+                    <h4 class="section-title"><i class="material-icons">list_alt</i> Items</h4>
+                    <button type="button" class="btn btn-secondary" id="add-debit-item">
+                        <i class="material-icons">add</i> Add Item
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="debit-items">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Description</th>
+                                <th>Qty</th>
+                                <th>Rate</th>
+                                <th>Amount</th>
+                                <th class="no-print"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="debit-items-body">
+                            <tr>
+                                <td>
+                                    <select class="item-name product-select">
+                                        <option value="">Select Product</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="item-desc" placeholder="Description" readonly></td>
+                                <td><input type="number" class="item-qty" value="1" min="1"></td>
+                                <td><input type="number" class="item-rate" placeholder="0.00"></td>
+                                <td class="item-amount">0.00</td>
+                                <td class="no-print"><button type="button" class="btn btn-secondary" onclick="removeDebitItem(this)"><i class="material-icons">delete</i></button></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-right">Subtotal</td>
+                                <td id="debit-subtotal">0.00</td>
+                                <td class="no-print"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right">Tax (10%)</td>
+                                <td id="debit-tax">0.00</td>
+                                <td class="no-print"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right">Total</td>
+                                <td id="debit-total">0.00</td>
+                                <td class="no-print"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <label for="debit-notes">Notes</label>
+                    <textarea id="debit-notes" rows="2" placeholder="Any additional notes"></textarea>
+                </div>
+
+                <div class="form-group no-print">
+                    <button type="button" class="btn btn-primary" id="save-debit-note">
+                        <i class="material-icons">save</i> Save Debit Note
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancel-debit-note">
+                        <i class="material-icons">cancel</i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customers Section -->
+        <div id="customers" class="content-section">
+            <div class="section-header">
+                <h3 class="section-title"><i class="material-icons">people</i> Customer Management</h3>
+                <button class="btn btn-primary" id="new-customer">
+                    <i class="material-icons">add</i> New Customer
+                </button>
+            </div>
+
+            <div id="customer-list" class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>GSTIN</th>
+                            <th class="no-print">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customer-list-body">
+                        <tr>
+                            <td colspan="6" class="text-center">No customers found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="customer-form" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customer-name-input">Name *</label>
+                        <input type="text" id="customer-name-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-phone-input">Phone *</label>
+                        <input type="text" id="customer-phone-input" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customer-email-input">Email</label>
+                        <input type="email" id="customer-email-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-gstin">GSTIN</label>
+                        <input type="text" id="customer-gstin">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="customer-address-input">Address</label>
+                    <textarea id="customer-address-input" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="customer-city">City</label>
+                    <input type="text" id="customer-city">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customer-state">State</label>
+                        <input type="text" id="customer-state">
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-pincode">Pincode</label>
+                        <input type="text" id="customer-pincode">
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-country">Country</label>
+                        <input type="text" id="customer-country" value="India">
+                    </div>
+                </div>
+
+                <div class="form-group no-print">
+                    <button type="button" class="btn btn-primary" id="save-customer">
+                        <i class="material-icons">save</i> Save Customer
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancel-customer">
+                        <i class="material-icons">cancel</i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Suppliers Section -->
+        <div id="suppliers" class="content-section">
+            <div class="section-header">
+                <h3 class="section-title"><i class="material-icons">local_shipping</i> Supplier Management</h3>
+                <button class="btn btn-primary" id="new-supplier">
+                    <i class="material-icons">add</i> New Supplier
+                </button>
+            </div>
+
+            <div id="supplier-list" class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>GSTIN</th>
+                            <th class="no-print">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="supplier-list-body">
+                        <tr>
+                            <td colspan="6" class="text-center">No suppliers found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="supplier-form" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supplier-name-input">Name *</label>
+                        <input type="text" id="supplier-name-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="supplier-phone-input">Phone *</label>
+                        <input type="text" id="supplier-phone-input" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supplier-email-input">Email</label>
+                        <input type="email" id="supplier-email-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="supplier-gstin">GSTIN</label>
+                        <input type="text" id="supplier-gstin">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="supplier-address-input">Address</label>
+                    <textarea id="supplier-address-input" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="supplier-city">City</label>
+                    <input type="text" id="supplier-city">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supplier-state">State</label>
+                        <input type="text" id="supplier-state">
+                    </div>
+                    <div class="form-group">
+                        <label for="supplier-pincode">Pincode</label>
+                        <input type="text" id="supplier-pincode">
+                    </div>
+                    <div class="form-group">
+                        <label for="supplier-country">Country</label>
+                        <input type="text" id="supplier-country" value="India">
+                    </div>
+                </div>
+
+                <div class="form-group no-print">
+                    <button type="button" class="btn btn-primary" id="save-supplier">
+                        <i class="material-icons">save</i> Save Supplier
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancel-supplier">
+                        <i class="material-icons">cancel</i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div id="products" class="content-section">
+            <div class="section-header">
+                <h3 class="section-title"><i class="material-icons">inventory</i> Product Management</h3>
+                <button class="btn btn-primary" id="new-product">
+                    <i class="material-icons">add</i> New Product
+                </button>
+            </div>
+
+            <div id="product-list" class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>HSN Code</th>
+                            <th>Rate</th>
+                            <th>Stock</th>
+                            <th class="no-print">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="product-list-body">
+                        <tr>
+                            <td colspan="6" class="text-center">No products found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="product-form" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="product-name">Name *</label>
+                        <input type="text" id="product-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-hsn">HSN Code</label>
+                        <input type="text" id="product-hsn">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="product-description">Description</label>
+                    <textarea id="product-description" rows="2"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="product-rate">Rate *</label>
+                        <input type="number" id="product-rate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-tax">Tax Rate (%)</label>
+                        <input type="number" id="product-tax" value="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-stock">Current Stock</label>
+                        <input type="number" id="product-stock" value="0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="product-unit">Unit</label>
+                    <select id="product-unit">
+                        <option value="Nos">Nos</option>
+                        <option value="Kg">Kg</option>
+                        <option value="Ltr">Ltr</option>
+                        <option value="Meter">Meter</option>
+                        <option value="Box">Box</option>
+                    </select>
+                </div>
+
+                <div class="form-group no-print">
+                    <button type="button" class="btn btn-primary" id="save-product">
+                        <i class="material-icons">save</i> Save Product
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancel-product">
+                        <i class="material-icons">cancel</i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentSection = 'dashboard';
+        let invoices = JSON.parse(localStorage.getItem('invoices')) || [];
+        let purchases = JSON.parse(localStorage.getItem('purchases')) || [];
+        let creditNotes = JSON.parse(localStorage.getItem('creditNotes')) || [];
+        let debitNotes = JSON.parse(localStorage.getItem('debitNotes')) || [];
+        let customers = JSON.parse(localStorage.getItem('customers')) || [];
+        let suppliers = JSON.parse(localStorage.getItem('suppliers')) || [];
+        let products = JSON.parse(localStorage.getItem('products')) || [];
+        let currentInvoice = null;
+        let currentPurchase = null;
+        let currentCreditNote = null;
+        let currentDebitNote = null;
+        let currentCustomer = null;
+        let currentSupplier = null;
+        let currentProduct = null;
+        
+        // Company details
+        let companyDetails = JSON.parse(localStorage.getItem('companyDetails')) || {
+            name: "My Company",
+            tagline: "Quality Products & Services",
+            registration: "REG123456789",
+            gstin: "22ABCDE1234F1Z5",
+            pan: "ABCDE1234F",
+            logo: "",
+            address: "123 Business Street, Industrial Area",
+            city: "Mumbai",
+            state: "Maharashtra",
+            country: "India",
+            pincode: "400001",
+            phone: "+91 9876543210",
+            email: "contact@mycompany.com",
+            website: "www.mycompany.com",
+            bankName: "State Bank of India",
+            accountName: "My Company",
+            accountNumber: "123456789012",
+            ifsc: "SBIN0001234",
+            branch: "Main Branch, Mumbai"
+        };
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation click handlers
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const section = this.getAttribute('data-section');
+                    showSection(section);
+                });
+            });
+            
+            // Invoice form handlers
+            document.getElementById('new-invoice').addEventListener('click', newInvoice);
+            document.getElementById('add-item').addEventListener('click', addItem);
+            document.getElementById('save-invoice').addEventListener('click', saveInvoice);
+            document.getElementById('cancel-invoice').addEventListener('click', cancelInvoice);
+            document.getElementById('print-invoice').addEventListener('click', printInvoice);
+            
+            // Purchase form handlers
+            document.getElementById('new-purchase').addEventListener('click', newPurchase);
+            document.getElementById('add-purchase-item').addEventListener('click', addPurchaseItem);
+            document.getElementById('save-purchase').addEventListener('click', savePurchase);
+            document.getElementById('cancel-purchase').addEventListener('click', cancelPurchase);
+            
+            // Credit Note form handlers
+            document.getElementById('new-credit-note').addEventListener('click', newCreditNote);
+            document.getElementById('add-credit-item').addEventListener('click', addCreditItem);
+            document.getElementById('save-credit-note').addEventListener('click', saveCreditNote);
+            document.getElementById('cancel-credit-note').addEventListener('click', cancelCreditNote);
+            
+            // Debit Note form handlers
+            document.getElementById('new-debit-note').addEventListener('click', newDebitNote);
+            document.getElementById('add-debit-item').addEventListener('click', addDebitItem);
+            document.getElementById('save-debit-note').addEventListener('click', saveDebitNote);
+            document.getElementById('cancel-debit-note').addEventListener('click', cancelDebitNote);
+            
+            // Customer form handlers
+            document.getElementById('new-customer').addEventListener('click', newCustomer);
+            document.getElementById('save-customer').addEventListener('click', saveCustomer);
+            document.getElementById('cancel-customer').addEventListener('click', cancelCustomer);
+            
+            // Supplier form handlers
+            document.getElementById('new-supplier').addEventListener('click', newSupplier);
+            document.getElementById('save-supplier').addEventListener('click', saveSupplier);
+            document.getElementById('cancel-supplier').addEventListener('click', cancelSupplier);
+            
+            // Product form handlers
+            document.getElementById('new-product').addEventListener('click', newProduct);
+            document.getElementById('save-product').addEventListener('click', saveProduct);
+            document.getElementById('cancel-product').addEventListener('click', cancelProduct);
+            
+            // Company details handlers
+            document.getElementById('edit-company').addEventListener('click', editCompanyDetails);
+            document.getElementById('cancel-company-edit').addEventListener('click', cancelCompanyEdit);
+            document.getElementById('company-details-form').addEventListener('submit', saveCompanyDetails);
+            document.getElementById('company-logo').addEventListener('change', previewLogo);
+            
+            // Initialize dashboard counts
+            updateDashboard();
+            
+            // Load lists
+            loadInvoiceList();
+            loadPurchaseList();
+            loadCreditNoteList();
+            loadDebitNoteList();
+            loadCustomerList();
+            loadSupplierList();
+            loadProductList();
+            
+            // Display company details
+            displayCompanyDetails();
+            
+            // Set up customer select change handler
+            document.getElementById('customer-name').addEventListener('change', function() {
+                const customerId = this.value;
+                const customer = customers.find(c => c.id == customerId);
+                if (customer) {
+                    document.getElementById('customer-phone').value = customer.phone || '';
+                    document.getElementById('customer-address').value = [
+                        customer.address,
+                        customer.city,
+                        customer.state,
+                        customer.pincode,
+                        customer.country
+                    ].filter(Boolean).join(', ');
+                }
+            });
+            
+            // Set up supplier select change handler
+            document.getElementById('supplier-name').addEventListener('change', function() {
+                const supplierId = this.value;
+                const supplier = suppliers.find(s => s.id == supplierId);
+                if (supplier) {
+                    document.getElementById('supplier-phone').value = supplier.phone || '';
+                    document.getElementById('supplier-address').value = [
+                        supplier.address,
+                        supplier.city,
+                        supplier.state,
+                        supplier.pincode,
+                        supplier.country
+                    ].filter(Boolean).join(', ');
+                }
+            });
+            
+            // Set up product select change handlers
+            document.addEventListener('change', function(e) {
+                if (e.target.classList.contains('product-select')) {
+                    const productId = e.target.value;
+                    const product = products.find(p => p.id == productId);
+                    if (product) {
+                        const row = e.target.closest('tr');
+                        row.querySelector('.item-desc').value = product.description || '';
+                        row.querySelector('.item-rate').value = product.rate || '';
+                        calculateItemAmount.call(row.querySelector('.item-qty'));
+                    }
+                }
+            });
+            
+            // Set up quantity/rate change handlers
+            document.addEventListener('input', function(e) {
+                if (e.target.classList.contains('item-qty') || e.target.classList.contains('item-rate')) {
+                    calculateItemAmount.call(e.target);
+                }
+            });
+        });
+        
+        // Show the selected section
+        function showSection(section) {
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if(link.getAttribute('data-section') === section) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Update page title
+            document.getElementById('page-title').textContent = 
+                section.charAt(0).toUpperCase() + section.slice(1).replace('-', ' ');
+            
+            // Hide all sections and show selected one
+            document.querySelectorAll('.content-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            document.getElementById(section).classList.add('active');
+            
+            currentSection = section;
+            
+            // If showing company section, update the display
+            if(section === 'company') {
+                displayCompanyDetails();
+            }
+        }
+        
+        // Update dashboard counts
+        function updateDashboard() {
+            document.getElementById('total-invoices').textContent = invoices.length;
+            document.getElementById('total-purchases').textContent = purchases.length;
+            document.getElementById('total-credits').textContent = creditNotes.length;
+            document.getElementById('total-debits').textContent = debitNotes.length;
+            
+            // Calculate monthly counts
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            
+            const monthInvoices = invoices.filter(inv => {
+                const invDate = new Date(inv.date);
+                return invDate.getMonth() === currentMonth && invDate.getFullYear() === currentYear;
+            }).length;
+            
+            const monthPurchases = purchases.filter(p => {
+                const pDate = new Date(p.date);
+                return pDate.getMonth() === currentMonth && pDate.getFullYear() === currentYear;
+            }).length;
+            
+            const monthCredits = creditNotes.filter(cn => {
+                const cnDate = new Date(cn.date);
+                return cnDate.getMonth() === currentMonth && cnDate.getFullYear() === currentYear;
+            }).length;
+            
+            const monthDebits = debitNotes.filter(dn => {
+                const dnDate = new Date(dn.date);
+                return dnDate.getMonth() === currentMonth && dnDate.getFullYear() === currentYear;
+            }).length;
+            
+            document.getElementById('month-invoices').textContent = monthInvoices;
+            document.getElementById('month-purchases').textContent = monthPurchases;
+            document.getElementById('month-credits').textContent = monthCredits;
+            document.getElementById('month-debits').textContent = monthDebits;
+            
+            // Update recent transactions
+            const recentTransactions = [...invoices, ...purchases, ...creditNotes, ...debitNotes]
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(0, 5);
+            
+            const recentTable = document.getElementById('recent-transactions');
+            recentTable.innerHTML = '';
+            
+            if(recentTransactions.length === 0) {
+                recentTable.innerHTML = '<tr><td colspan="6" class="text-center">No recent transactions</td></tr>';
+            } else {
+                recentTransactions.forEach(trans => {
+                    const row = document.createElement('tr');
+                    let type = '';
+                    let number = '';
+                    
+                    if(trans.invoiceNumber) {
+                        type = 'Invoice';
+                        number = trans.invoiceNumber;
+                    } else if(trans.poNumber) {
+                        type = 'Purchase';
+                        number = trans.poNumber;
+                    } else if(trans.creditNoteNumber) {
+                        type = 'Credit Note';
+                        number = trans.creditNoteNumber;
+                    } else if(trans.debitNoteNumber) {
+                        type = 'Debit Note';
+                        number = trans.debitNoteNumber;
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${new Date(trans.date).toLocaleDateString()}</td>
+                        <td>${type}</td>
+                        <td>${number}</td>
+                        <td>${trans.customerName || trans.supplierName || 'N/A'}</td>
+                        <td class="text-right">₹${trans.total?.toFixed(2) || '0.00'}</td>
+                        <td>${trans.status || 'Completed'}</td>
+                    `;
+                    recentTable.appendChild(row);
+                });
+            }
+        }
+        
+        // Company details functions
+        function displayCompanyDetails() {
+            // Basic Information
+            document.getElementById('display-company-name').textContent = companyDetails.name;
+            document.getElementById('display-company-tagline').textContent = companyDetails.tagline;
+            document.getElementById('display-company-registration').textContent = companyDetails.registration;
+            document.getElementById('display-company-gstin').textContent = companyDetails.gstin;
+            document.getElementById('display-company-pan').textContent = companyDetails.pan;
+            
+            // Logo display
+            const logoPreview = document.getElementById('company-logo-preview');
+            if(companyDetails.logo) {
+                logoPreview.src = companyDetails.logo;
+                logoPreview.style.display = 'block';
+            } else {
+                logoPreview.style.display = 'none';
+            }
+            
+            // Contact Information
+            document.getElementById('display-company-address').textContent = companyDetails.address;
+            document.getElementById('display-company-city').textContent = companyDetails.city;
+            document.getElementById('display-company-state').textContent = companyDetails.state;
+            document.getElementById('display-company-country').textContent = companyDetails.country;
+            document.getElementById('display-company-pincode').textContent = companyDetails.pincode;
+            document.getElementById('display-company-phone').textContent = companyDetails.phone;
+            document.getElementById('display-company-email').textContent = companyDetails.email;
+            document.getElementById('display-company-website').textContent = companyDetails.website;
+            
+            // Bank Details
+            document.getElementById('display-company-bank-name').textContent = companyDetails.bankName;
+            document.getElementById('display-company-account-name').textContent = companyDetails.accountName;
+            document.getElementById('display-company-account-number').textContent = companyDetails.accountNumber;
+            document.getElementById('display-company-ifsc').textContent = companyDetails.ifsc;
+            document.getElementById('display-company-branch').textContent = companyDetails.branch;
+        }
+        
+        function editCompanyDetails() {
+            document.getElementById('company-view').style.display = 'none';
+            document.getElementById('company-form').style.display = 'block';
+            
+            // Fill form with current details
+            document.getElementById('company-name').value = companyDetails.name;
+            document.getElementById('company-tagline').value = companyDetails.tagline;
+            document.getElementById('company-registration').value = companyDetails.registration;
+            document.getElementById('company-gstin').value = companyDetails.gstin;
+            document.getElementById('company-pan').value = companyDetails.pan;
+            
+            document.getElementById('company-address').value = companyDetails.address;
+            document.getElementById('company-city').value = companyDetails.city;
+            document.getElementById('company-state').value = companyDetails.state;
+            document.getElementById('company-country').value = companyDetails.country;
+            document.getElementById('company-pincode').value = companyDetails.pincode;
+            document.getElementById('company-phone').value = companyDetails.phone;
+            document.getElementById('company-email').value = companyDetails.email;
+            document.getElementById('company-website').value = companyDetails.website;
+            
+            document.getElementById('company-bank-name').value = companyDetails.bankName;
+            document.getElementById('company-account-name').value = companyDetails.accountName;
+            document.getElementById('company-account-number').value = companyDetails.accountNumber;
+            document.getElementById('company-ifsc').value = companyDetails.ifsc;
+            document.getElementById('company-branch').value = companyDetails.branch;
+            
+            // Logo preview if exists
+            const logoPreviewContainer = document.getElementById('logo-preview-container');
+            logoPreviewContainer.innerHTML = '';
+            
+            if(companyDetails.logo) {
+                const img = document.createElement('img');
+                img.src = companyDetails.logo;
+                img.style.maxWidth = '150px';
+                img.style.maxHeight = '100px';
+                logoPreviewContainer.appendChild(img);
+            }
+        }
+        
+        function cancelCompanyEdit() {
+            document.getElementById('company-view').style.display = 'block';
+            document.getElementById('company-form').style.display = 'none';
+        }
+        
+        function previewLogo(event) {
+            const file = event.target.files[0];
+            if(!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const logoPreviewContainer = document.getElementById('logo-preview-container');
+                logoPreviewContainer.innerHTML = '';
+                
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '150px';
+                img.style.maxHeight = '100px';
+                logoPreviewContainer.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function saveCompanyDetails(e) {
+            e.preventDefault();
+            
+            // Get form values
+            companyDetails = {
+                name: document.getElementById('company-name').value,
+                tagline: document.getElementById('company-tagline').value,
+                registration: document.getElementById('company-registration').value,
+                gstin: document.getElementById('company-gstin').value,
+                pan: document.getElementById('company-pan').value,
+                address: document.getElementById('company-address').value,
+                city: document.getElementById('company-city').value,
+                state: document.getElementById('company-state').value,
+                country: document.getElementById('company-country').value,
+                pincode: document.getElementById('company-pincode').value,
+                phone: document.getElementById('company-phone').value,
+                email: document.getElementById('company-email').value,
+                website: document.getElementById('company-website').value,
+                bankName: document.getElementById('company-bank-name').value,
+                accountName: document.getElementById('company-account-name').value,
+                accountNumber: document.getElementById('company-account-number').value,
+                ifsc: document.getElementById('company-ifsc').value,
+                branch: document.getElementById('company-branch').value,
+                logo: companyDetails.logo // Preserve existing logo unless changed
+            };
+            
+            // Handle logo if selected
+            const logoFile = document.getElementById('company-logo').files[0];
+            if(logoFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    companyDetails.logo = e.target.result;
+                    localStorage.setItem('companyDetails', JSON.stringify(companyDetails));
+                    cancelCompanyEdit();
+                    displayCompanyDetails();
+                };
+                reader.readAsDataURL(logoFile);
+            } else {
+                localStorage.setItem('companyDetails', JSON.stringify(companyDetails));
+                cancelCompanyEdit();
+                displayCompanyDetails();
+            }
+        }
+        
+        // Invoice management functions
+        function newInvoice() {
+            document.getElementById('invoice-list').style.display = 'none';
+            document.getElementById('invoice-form').style.display = 'block';
+            document.getElementById('new-invoice').style.display = 'none';
+            
+            // Generate invoice number
+            const invoiceNumber = 'INV-' + new Date().getFullYear() + '-' + (invoices.length + 1).toString().padStart(4, '0');
+            document.getElementById('invoice-number').value = invoiceNumber;
+            
+            // Set today's date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('invoice-date').value = today;
+            
+            // Clear form
+            document.getElementById('customer-name').value = '';
+            document.getElementById('customer-phone').value = '';
+            document.getElementById('customer-address').value = '';
+            document.getElementById('invoice-notes').value = '';
+            
+            // Clear items (keep one empty row)
+            const itemsBody = document.getElementById('invoice-items-body');
+            itemsBody.innerHTML = '';
+            addItem();
+            
+            // Populate customer dropdown
+            const customerSelect = document.getElementById('customer-name');
+            customerSelect.innerHTML = '<option value="">Select Customer</option>';
+            customers.forEach(customer => {
+                const option = document.createElement('option');
+                option.value = customer.id;
+                option.textContent = customer.name;
+                customerSelect.appendChild(option);
+            });
+            
+            // Populate product dropdowns
+            updateProductSelects();
+            
+            currentInvoice = null;
+        }
+        
+        function addItem() {
+            const itemsBody = document.getElementById('invoice-items-body');
+            const rowCount = itemsBody.children.length + 1;
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <select class="item-name product-select">
+                        <option value="">Select Product</option>
+                    </select>
+                </td>
+                <td><input type="text" class="item-desc" placeholder="Description" readonly></td>
+                <td><input type="number" class="item-qty" value="1" min="1"></td>
+                <td><input type="number" class="item-rate" placeholder="0.00" readonly></td>
+                <td class="item-amount">0.00</td>
+                <td class="no-print"><button type="button" class="btn btn-secondary" onclick="removeItem(this)"><i class="material-icons">delete</i></button></td>
+            `;
+            
+            itemsBody.appendChild(row);
+            
+            // Populate product dropdown for this row
+            const productSelect = row.querySelector('.product-select');
+            products.forEach(product => {
+                const option = document.createElement('option');
+                option.value = product.id;
+                option.textContent = product.name;
+                productSelect.appendChild(option);
+            });
+            
+            // Add event listeners for calculations
+            row.querySelector('.item-qty').addEventListener('input', calculateItemAmount);
+            row.querySelector('.item-rate').addEventListener('input', calculateItemAmount);
+        }
+        
+        function updateProductSelects() {
+            document.querySelectorAll('.product-select').forEach(select => {
+                // Save current value
+                const currentValue = select.value;
+                
+                // Clear and repopulate options
+                select.innerHTML = '<option value="">Select Product</option>';
+                products.forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product.id;
+                    option.textContent = product.name;
+                    select.appendChild(option);
+                });
+                
+                // Restore value if it exists in new options
+                if (products.some(p => p.id == currentValue)) {
+                    select.value = currentValue;
+                }
+            });
+        }
+        
+        function removeItem(button) {
+            const row = button.closest('tr');
+            const itemsBody = document.getElementById('invoice-items-body');
+            
+            if(itemsBody.children.length > 1) {
+                row.remove();
+                calculateInvoiceTotal();
+            } else {
+                alert("At least one item is required!");
+            }
+        }
+        
+        function calculateItemAmount() {
+            const row = this.closest('tr');
+            const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+            const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+            const amount = qty * rate;
+            
+            row.querySelector('.item-amount').textContent = amount.toFixed(2);
+            calculateInvoiceTotal();
+        }
+        
+        function calculateInvoiceTotal() {
+            let subtotal = 0;
+            
+            document.querySelectorAll('#invoice-items-body tr').forEach(row => {
+                const amount = parseFloat(row.querySelector('.item-amount').textContent) || 0;
+                subtotal += amount;
+            });
+            
+            const tax = subtotal * 0.10; // 10% tax
+            const total = subtotal + tax;
+            
+            document.getElementById('invoice-subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('invoice-tax').textContent = tax.toFixed(2);
+            document.getElementById('invoice-total').textContent = total.toFixed(2);
+        }
+        
+        function saveInvoice() {
+            const invoiceNumber = document.getElementById('invoice-number').value;
+            const invoiceDate = document.getElementById('invoice-date').value;
+            const customerId = document.getElementById('customer-name').value;
+            const customer = customers.find(c => c.id == customerId);
+            const customerPhone = document.getElementById('customer-phone').value;
+            const customerAddress = document.getElementById('customer-address').value;
+            const notes = document.getElementById('invoice-notes').value;
+            
+            if(!customerId) {
+                alert("Please select a customer!");
+                return;
+            }
+            
+            // Collect items
+            const items = [];
+            let isValid = true;
+            
+            document.querySelectorAll('#invoice-items-body tr').forEach(row => {
+                const productId = row.querySelector('.item-name').value;
+                const product = products.find(p => p.id == productId);
+                const desc = row.querySelector('.item-desc').value;
+                const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+                
+                if(!productId) {
+                    isValid = false;
+                    row.querySelector('.item-name').focus();
+                    return;
+                }
+                
+                items.push({
+                    productId: productId,
+                    name: product ? product.name : '',
+                    description: desc,
+                    quantity: qty,
+                    rate: rate,
+                    amount: qty * rate
+                });
+            });
+            
+            if(!isValid) {
+                alert("Please select a product for all items!");
+                return;
+            }
+            
+            const subtotal = parseFloat(document.getElementById('invoice-subtotal').textContent) || 0;
+            const tax = parseFloat(document.getElementById('invoice-tax').textContent) || 0;
+            const total = parseFloat(document.getElementById('invoice-total').textContent) || 0;
+            
+            // Create invoice object
+            const invoice = {
+                id: Date.now().toString(),
+                invoiceNumber: invoiceNumber,
+                date: invoiceDate,
+                customerId: customerId,
+                customerName: customer ? customer.name : '',
+                customerPhone: customerPhone,
+                customerAddress: customerAddress,
+                items: items,
+                subtotal: subtotal,
+                tax: tax,
+                total: total,
+                notes: notes,
+                status: "Unpaid",
+                createdAt: new Date().toISOString()
+            };
+            
+            if(currentInvoice) {
+                // Update existing invoice
+                const index = invoices.findIndex(inv => inv.id === currentInvoice.id);
+                if(index !== -1) {
+                    invoices[index] = invoice;
+                }
+            } else {
+                // Add new invoice
+                invoices.unshift(invoice);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('invoices', JSON.stringify(invoices));
+            
+            // Update UI
+            loadInvoiceList();
+            cancelInvoice();
+            updateDashboard();
+            
+            // Show print button
+            document.getElementById('print-invoice').style.display = 'inline-block';
+            currentInvoice = invoice;
+        }
+        
+        function cancelInvoice() {
+            document.getElementById('invoice-list').style.display = 'block';
+            document.getElementById('invoice-form').style.display = 'none';
+            document.getElementById('new-invoice').style.display = 'inline-block';
+            document.getElementById('print-invoice').style.display = 'none';
+        }
+        
+        function loadInvoiceList() {
+            const invoiceList = document.getElementById('invoice-list-body');
+            invoiceList.innerHTML = '';
+            
+            if(invoices.length === 0) {
+                invoiceList.innerHTML = '<tr><td colspan="6" class="text-center">No invoices found</td></tr>';
+            } else {
+                invoices.forEach(invoice => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${invoice.invoiceNumber}</td>
+                        <td>${new Date(invoice.date).toLocaleDateString()}</td>
+                        <td>${invoice.customerName}</td>
+                        <td>₹${invoice.total.toFixed(2)}</td>
+                        <td>${invoice.status}</td>
+                        <td class="no-print">
+                            <button class="btn btn-secondary" onclick="viewInvoice('${invoice.id}')">
+                                <i class="material-icons">visibility</i>
+                            </button>
+                            <button class="btn btn-primary" onclick="editInvoice('${invoice.id}')">
+                                <i class="material-icons">edit</i>
+                            </button>
+                            <button class="btn btn-warning" onclick="deleteInvoice('${invoice.id}')">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </td>
+                    `;
+                    invoiceList.appendChild(row);
+                });
+            }
+        }
+        
+        function viewInvoice(invoiceId) {
+            const invoice = invoices.find(inv => inv.id === invoiceId);
+            if(!invoice) return;
+            
+            // Display company details
+            document.getElementById('invoice-company-name').textContent = companyDetails.name;
+            document.getElementById('invoice-company-details').innerHTML = `
+                ${companyDetails.address}<br>
+                ${companyDetails.city}, ${companyDetails.state} - ${companyDetails.pincode}<br>
+                ${companyDetails.country}<br>
+                Phone: ${companyDetails.phone} | Email: ${companyDetails.email}<br>
+                GSTIN: ${companyDetails.gstin} | PAN: ${companyDetails.pan}
+            `;
+            
+            if (companyDetails.logo) {
+                document.getElementById('invoice-company-logo').src = companyDetails.logo;
+                document.getElementById('invoice-company-logo').style.display = 'block';
+            } else {
+                document.getElementById('invoice-company-logo').style.display = 'none';
+            }
+            
+            // Display invoice details
+            document.getElementById('display-invoice-number').textContent = `Invoice #: ${invoice.invoiceNumber}`;
+            document.getElementById('display-invoice-date').textContent = `Date: ${new Date(invoice.date).toLocaleDateString()}`;
+            document.getElementById('display-customer-name').textContent = invoice.customerName;
+            document.getElementById('display-customer-phone').textContent = invoice.customerPhone;
+            document.getElementById('display-customer-address').textContent = invoice.customerAddress;
+            
+            // Display items
+            const itemsBody = document.getElementById('display-invoice-items');
+            itemsBody.innerHTML = '';
+            
+            invoice.items.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${item.name} - ${item.description}</td>
+                    <td>${item.quantity}</td>
+                    <td>₹${item.rate.toFixed(2)}</td>
+                    <td>₹${item.amount.toFixed(2)}</td>
+                `;
+                itemsBody.appendChild(row);
+            });
+            
+            // Display totals
+            document.getElementById('display-subtotal').textContent = invoice.subtotal.toFixed(2);
+            document.getElementById('display-tax').textContent = invoice.tax.toFixed(2);
+            document.getElementById('display-total').textContent = invoice.total.toFixed(2);
+            
+            // Display notes
+            document.getElementById('display-notes').textContent = invoice.notes || '';
+            
+            // Set footer company name
+            document.getElementById('invoice-company-name-footer').textContent = companyDetails.name;
+            
+            // Show invoice template
+            document.getElementById('invoice-template').style.display = 'block';
+        }
+        
+        function closeInvoicePreview() {
+            document.getElementById('invoice-template').style.display = 'none';
+        }
+        
+        function editInvoice(invoiceId) {
+            const invoice = invoices.find(inv => inv.id === invoiceId);
+            if(!invoice) return;
+            
+            // Show form
+            document.getElementById('invoice-list').style.display = 'none';
+            document.getElementById('invoice-form').style.display = 'block';
+            document.getElementById('new-invoice').style.display = 'none';
+            document.getElementById('print-invoice').style.display = 'none';
+            
+            // Fill form
+            document.getElementById('invoice-number').value = invoice.invoiceNumber;
+            document.getElementById('invoice-date').value = invoice.date;
+            
+            // Populate customer dropdown
+            const customerSelect = document.getElementById('customer-name');
+            customerSelect.innerHTML = '<option value="">Select Customer</option>';
+            customers.forEach(customer => {
+                const option = document.createElement('option');
+                option.value = customer.id;
+                option.textContent = customer.name;
+                if (customer.id === invoice.customerId) {
+                    option.selected = true;
+                }
+                customerSelect.appendChild(option);
+            });
+            
+            document.getElementById('customer-phone').value = invoice.customerPhone;
+            document.getElementById('customer-address').value = invoice.customerAddress;
+            document.getElementById('invoice-notes').value = invoice.notes || '';
+            
+            // Fill items
+            const itemsBody = document.getElementById('invoice-items-body');
+            itemsBody.innerHTML = '';
+            
+            invoice.items.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <select class="item-name product-select">
+                            <option value="">Select Product</option>
+                        </select>
+                    </td>
+                    <td><input type="text" class="item-desc" placeholder="Description" value="${item.description || ''}" readonly></td>
+                    <td><input type="number" class="item-qty" value="${item.quantity}" min="1"></td>
+                    <td><input type="number" class="item-rate" placeholder="0.00" value="${item.rate}" readonly></td>
+                    <td class="item-amount">${item.amount.toFixed(2)}</td>
+                    <td class="no-print"><button type="button" class="btn btn-secondary" onclick="removeItem(this)"><i class="material-icons">delete</i></button></td>
+                `;
+                itemsBody.appendChild(row);
+                
+                // Populate product dropdown for this row
+                const productSelect = row.querySelector('.product-select');
+                products.forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product.id;
+                    option.textContent = product.name;
+                    if (product.id === item.productId) {
+                        option.selected = true;
+                    }
+                    productSelect.appendChild(option);
+                });
+                
+                // Add event listeners
+                row.querySelector('.item-qty').addEventListener('input', calculateItemAmount);
+                row.querySelector('.item-rate').addEventListener('input', calculateItemAmount);
+            });
+            
+            // Calculate totals
+            calculateInvoiceTotal();
+            
+            currentInvoice = invoice;
+        }
+        
+        function deleteInvoice(invoiceId) {
+            if(confirm("Are you sure you want to delete this invoice?")) {
+                invoices = invoices.filter(inv => inv.id !== invoiceId);
+                localStorage.setItem('invoices', JSON.stringify(invoices));
+                loadInvoiceList();
+                updateDashboard();
+            }
+        }
+        
+        function printInvoice() {
+            if(!currentInvoice) return;
+            viewInvoice(currentInvoice.id);
+            window.print();
+        }
+        
+        // Purchase management functions
+        function newPurchase() {
+            document.getElementById('purchase-list').style.display = 'none';
+            document.getElementById('purchase-form').style.display = 'block';
+            document.getElementById('new-purchase').style.display = 'none';
+            
+            // Generate PO number
+            const poNumber = 'PO-' + new Date().getFullYear() + '-' + (purchases.length + 1).toString().padStart(4, '0');
+            document.getElementById('purchase-number').value = poNumber;
+            
+            // Set today's date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('purchase-date').value = today;
+            
+            // Clear form
+            document.getElementById('supplier-name').value = '';
+            document.getElementById('supplier-phone').value = '';
+            document.getElementById('supplier-address').value = '';
+            document.getElementById('purchase-notes').value = '';
+            
+            // Clear items (keep one empty row)
+            const itemsBody = document.getElementById('purchase-items-body');
+            itemsBody.innerHTML = '';
+            addPurchaseItem();
+            
+            // Populate supplier dropdown
+            const supplierSelect = document.getElementById('supplier-name');
+            supplierSelect.innerHTML = '<option value="">Select Supplier</option>';
+            suppliers.forEach(supplier => {
+                const option = document.createElement('option');
+                option.value = supplier.id;
+                option.textContent = supplier.name;
+                supplierSelect.appendChild(option);
+            });
+            
+            // Populate product dropdowns
+            updateProductSelects();
+            
+            currentPurchase = null;
+        }
+        
+        function addPurchaseItem() {
+            const itemsBody = document.getElementById('purchase-items-body');
+            const rowCount = itemsBody.children.length + 1;
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <select class="item-name product-select">
+                        <option value="">Select Product</option>
+                    </select>
+                </td>
+                <td><input type="text" class="item-desc" placeholder="Description" readonly></td>
+                <td><input type="number" class="item-qty" value="1" min="1"></td>
+                <td><input type="number" class="item-rate" placeholder="0.00"></td>
+                <td class="item-amount">0.00</td>
+                <td class="no-print"><button type="button" class="btn btn-secondary" onclick="removePurchaseItem(this)"><i class="material-icons">delete</i></button></td>
+            `;
+            
+            itemsBody.appendChild(row);
+            
+            // Populate product dropdown for this row
+            const productSelect = row.querySelector('.product-select');
+            products.forEach(product => {
+                const option = document.createElement('option');
+                option.value = product.id;
+                option.textContent = product.name;
+                productSelect.appendChild(option);
+            });
+            
+            // Add event listeners for calculations
+            row.querySelector('.item-qty').addEventListener('input', calculatePurchaseItemAmount);
+            row.querySelector('.item-rate').addEventListener('input', calculatePurchaseItemAmount);
+        }
+        
+        function removePurchaseItem(button) {
+            const row = button.closest('tr');
+            const itemsBody = document.getElementById('purchase-items-body');
+            
+            if(itemsBody.children.length > 1) {
+                row.remove();
+                calculatePurchaseTotal();
+            } else {
+                alert("At least one item is required!");
+            }
+        }
+        
+        function calculatePurchaseItemAmount() {
+            const row = this.closest('tr');
+            const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+            const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+            const amount = qty * rate;
+            
+            row.querySelector('.item-amount').textContent = amount.toFixed(2);
+            calculatePurchaseTotal();
+        }
+        
+        function calculatePurchaseTotal() {
+            let subtotal = 0;
+            
+            document.querySelectorAll('#purchase-items-body tr').forEach(row => {
+                const amount = parseFloat(row.querySelector('.item-amount').textContent) || 0;
+                subtotal += amount;
+            });
+            
+            const tax = subtotal * 0.10; // 10% tax
+            const total = subtotal + tax;
+            
+            document.getElementById('purchase-subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('purchase-tax').textContent = tax.toFixed(2);
+            document.getElementById('purchase-total').textContent = total.toFixed(2);
+        }
+        
+        function savePurchase() {
+            const poNumber = document.getElementById('purchase-number').value;
+            const poDate = document.getElementById('purchase-date').value;
+            const supplierId = document.getElementById('supplier-name').value;
+            const supplier = suppliers.find(s => s.id == supplierId);
+            const supplierPhone = document.getElementById('supplier-phone').value;
+            const supplierAddress = document.getElementById('supplier-address').value;
+            const notes = document.getElementById('purchase-notes').value;
+            
+            if(!supplierId) {
+                alert("Please select a supplier!");
+                return;
+            }
+            
+            // Collect items
+            const items = [];
+            let isValid = true;
+            
+            document.querySelectorAll('#purchase-items-body tr').forEach(row => {
+                const productId = row.querySelector('.item-name').value;
+                const product = products.find(p => p.id == productId);
+                const desc = row.querySelector('.item-desc').value;
+                const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+                
+                if(!productId) {
+                    isValid = false;
+                    row.querySelector('.item-name').focus();
+                    return;
+                }
+                
+                items.push({
+                    productId: productId,
+                    name: product ? product.name : '',
+                    description: desc,
+                    quantity: qty,
+                    rate: rate,
+                    amount: qty * rate
+                });
+            });
+            
+            if(!isValid) {
+                alert("Please select a product for all items!");
+                return;
+            }
+            
+            const subtotal = parseFloat(document.getElementById('purchase-subtotal').textContent) || 0;
+            const tax = parseFloat(document.getElementById('purchase-tax').textContent) || 0;
+            const total = parseFloat(document.getElementById('purchase-total').textContent) || 0;
+            
+            // Create purchase object
+            const purchase = {
+                id: Date.now().toString(),
+                poNumber: poNumber,
+                date: poDate,
+                supplierId: supplierId,
+                supplierName: supplier ? supplier.name : '',
+                supplierPhone: supplierPhone,
+                supplierAddress: supplierAddress,
+                items: items,
+                subtotal: subtotal,
+                tax: tax,
+                total: total,
+                notes: notes,
+                status: "Pending",
+                createdAt: new Date().toISOString()
+            };
+            
+            if(currentPurchase) {
+                // Update existing purchase
+                const index = purchases.findIndex(p => p.id === currentPurchase.id);
+                if(index !== -1) {
+                    purchases[index] = purchase;
+                }
+            } else {
+                // Add new purchase
+                purchases.unshift(purchase);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('purchases', JSON.stringify(purchases));
+            
+            // Update UI
+            loadPurchaseList();
+            cancelPurchase();
+            updateDashboard();
+            
+            currentPurchase = purchase;
+        }
+        
+        function cancelPurchase() {
+            document.getElementById('purchase-list').style.display = 'block';
+            document.getElementById('purchase-form').style.display = 'none';
+            document.getElementById('new-purchase').style.display = 'inline-block';
+        }
+        
+        function loadPurchaseList() {
+            const purchaseList = document.getElementById('purchase-list-body');
+            purchaseList.innerHTML = '';
+            
+            if(purchases.length === 0) {
+                purchaseList.innerHTML = '<tr><td colspan="6" class="text-center">No purchase orders found</td></tr>';
+            } else {
+                purchases.forEach(purchase => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${purchase.poNumber}</td>
+                        <td>${new Date(purchase.date).toLocaleDateString()}</td>
+                        <td>${purchase.supplierName}</td>
+                        <td>₹${purchase.total.toFixed(2)}</td>
+                        <td>${purchase.status}</td>
+                        <td class="no-print">
+                            <button class="btn btn-secondary" onclick="viewPurchase('${purchase.id}')">
+                                <i class="material-icons">visibility</i>
+                            </button>
+                            <button class="btn btn-primary" onclick="editPurchase('${purchase.id}')">
+                                <i class="material-icons">edit</i>
+                            </button>
+                            <button class="btn btn-warning" onclick="deletePurchase('${purchase.id}')">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </td>
+                    `;
+                    purchaseList.appendChild(row);
+                });
+            }
+        }
+        
+        function viewPurchase(purchaseId) {
+            const purchase = purchases.find(p => p.id === purchaseId);
+            if(!purchase) return;
+            
+            alert(`Viewing purchase order: ${purchase.poNumber}\nTotal: ₹${purchase.total.toFixed(2)}`);
+            // You can implement a detailed view similar to the invoice view
+        }
+        
+        function editPurchase(purchaseId) {
+            const purchase = purchases.find(p => p.id === purchaseId);
+            if(!purchase) return;
+            
+            // Show form
+            document.getElementById('purchase-list').style.display = 'none';
+            document.getElementById('purchase-form').style.display = 'block';
+            document.getElementById('new-purchase').style.display = 'none';
+            
+            // Fill form
+            document.getElementById('purchase-number').value = purchase.poNumber;
+            document.getElementById('purchase-date').value = purchase.date;
+            
+            // Populate supplier dropdown
+            const supplierSelect = document.getElementById('supplier-name');
+            supplierSelect.innerHTML = '<option value="">Select Supplier</option>';
+            suppliers.forEach(supplier => {
+                const option = document.createElement('option');
+                option.value = supplier.id;
+                option.textContent = supplier.name;
+                if (supplier.id === purchase.supplierId) {
+                    option.selected = true;
+                }
+                supplierSelect.appendChild(option);
+            });
+            
+            document.getElementById('supplier-phone').value = purchase.supplierPhone;
+            document.getElementById('supplier-address').value = purchase.supplierAddress;
+            document.getElementById('purchase-notes').value = purchase.notes || '';
+            
+            // Fill items
+            const itemsBody = document.getElementById('purchase-items-body');
+            itemsBody.innerHTML = '';
+            
+            purchase.items.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <select class="item-name product-select">
+                            <option value="">Select Product</option>
+                        </select>
+                    </td>
+                    <td><input type="text" class="item-desc" placeholder="Description" value="${item.description || ''}" readonly></td>
+                    <td><input type="number" class="item-qty" value="${item.quantity}" min="1"></td>
+                    <td><input type="number" class="item-rate" placeholder="0.00" value="${item.rate}"></td>
+                    <td class="item-amount">${item.amount.toFixed(2)}</td>
+                    <td class="no-print"><button type="button" class="btn btn-secondary" onclick="removePurchaseItem(this)"><i class="material-icons">delete</i></button></td>
+                `;
+                itemsBody.appendChild(row);
+                
+                // Populate product dropdown for this row
+                const productSelect = row.querySelector('.product-select');
+                products.forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product.id;
+                    option.textContent = product.name;
+                    if (product.id === item.productId) {
+                        option.selected = true;
+                    }
+                    productSelect.appendChild(option);
+                });
+                
+                // Add event listeners
+                row.querySelector('.item-qty').addEventListener('input', calculatePurchaseItemAmount);
+                row.querySelector('.item-rate').addEventListener('input', calculatePurchaseItemAmount);
+            });
+            
+            // Calculate totals
+            calculatePurchaseTotal();
+            
+            currentPurchase = purchase;
+        }
+        
+        function deletePurchase(purchaseId) {
+            if(confirm("Are you sure you want to delete this purchase order?")) {
+                purchases = purchases.filter(p => p.id !== purchaseId);
+                localStorage.setItem('purchases', JSON.stringify(purchases));
+                loadPurchaseList();
+                updateDashboard();
+            }
+        }
+        
+        // Credit Note management functions
+        function newCreditNote() {
+            document.getElementById('credit-note-list').style.display = 'none';
+            document.getElementById('credit-note-form').style.display = 'block';
+            document.getElementById('new-credit-note').style.display = 'none';
+            
+            // Generate CN number
+            const cnNumber = 'CN-' + new Date().getFullYear() + '-' + (creditNotes.length + 1).toString().padStart(4, '0');
+            document.getElementById('credit-note-number').value = cnNumber;
+            
+            // Set today's date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('credit-note-date').value = today;
+            
+            // Clear form
+            document.getElementById('credit-customer-name').value = '';
+            document.getElementById('credit-reference').value = '';
+            document.getElementById('credit-reason').value = 'Return';
+            document.getElementById('credit-notes').value = '';
+            
+            // Clear items (keep one empty row)
+            const itemsBody = document.getElementById('credit-items-body');
+            itemsBody.innerHTML = '';
+            addCreditItem();
+            
+            // Populate customer dropdown
+            const customerSelect = document.getElementById('credit-customer-name');
+            customerSelect.innerHTML = '<option value="">Select Customer</option>';
+            customers.forEach(customer => {
+                const option = document.createElement('option');
+                option.value = customer.id;
+                option.textContent = customer.name;
+                customerSelect.appendChild(option);
+            });
+            
+            // Populate invoice dropdown
+            const invoiceSelect = document.getElementById('credit-reference');
+            invoiceSelect.innerHTML = '<option value="">Select Invoice</option>';
+            invoices.forEach(invoice => {
+                const option = document.createElement('option');
+                option.value = invoice.id;
+                option.textContent = invoice.invoiceNumber;
+                invoiceSelect.appendChild(option);
+            });
+            
+            // Populate product dropdowns
+            updateProductSelects();
+            
+            currentCreditNote = null;
+        }
+        
+        function addCreditItem() {
+            const itemsBody = document.getElementById('credit-items-body');
+            const rowCount = itemsBody.children.length + 1;
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <select class="item-name product-select">
+                        <option value="">Select Product</option>
+                    </select>
+                </td>
+                <td><input type="text" class="item-desc" placeholder="Description" readonly></td>
+                <td><input type="number" class="item-qty" value="1" min="1"></td>
+                <td><input type="number" class="item-rate" placeholder="0.00" readonly></td>
+                <td class="item-amount">0.00</td>
+                <td class="no-print"><button type="button" class="btn btn-secondary" onclick="removeCreditItem(this)"><i class="material-icons">delete</i></button></td>
+            `;
+            
+            itemsBody.appendChild(row);
+            
+            // Populate product dropdown for this row
+            const productSelect = row.querySelector('.product-select');
+            products.forEach(product => {
+                const option = document.createElement('option');
+                option.value = product.id;
+                option.textContent = product.name;
+                productSelect.appendChild(option);
+            });
+            
+            // Add event listeners for calculations
+            row.querySelector('.item-qty').addEventListener('input', calculateCreditItemAmount);
+            row.querySelector('.item-rate').addEventListener('input', calculateCreditItemAmount);
+        }
+        
+        function removeCreditItem(button) {
+            const row = button.closest('tr');
+            const itemsBody = document.getElementById('credit-items-body');
+            
+            if(itemsBody.children.length > 1) {
+                row.remove();
+                calculateCreditTotal();
+            } else {
+                alert("At least one item is required!");
+            }
+        }
+        
+        function calculateCreditItemAmount() {
+            const row = this.closest('tr');
+            const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+            const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+            const amount = qty * rate;
+            
+            row.querySelector('.item-amount').textContent = amount.toFixed(2);
+            calculateCreditTotal();
+        }
+        
+        function calculateCreditTotal() {
+            let subtotal = 0;
+            
+            document.querySelectorAll('#credit-items-body tr').forEach(row => {
+                const amount = parseFloat(row.querySelector('.item-amount').textContent) || 0;
+                subtotal += amount;
+            });
+            
+            const tax = subtotal * 0.10; // 10% tax
+            const total = subtotal + tax;
+            
+            document.getElementById('credit-subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('credit-tax').textContent = tax.toFixed(2);
+            document.getElementById('credit-total').textContent = total.toFixed(2);
+        }
+        
+        function saveCreditNote() {
+            const cnNumber = document.getElementById('credit-note-number').value;
+            const cnDate = document.getElementById('credit-note-date').value;
+            const customerId = document.getElementById('credit-customer-name').value;
+            const customer = customers.find(c => c.id == customerId);
+            const referenceId = document.getElementById('credit-reference').value;
+            const reference = invoices.find(i => i.id == referenceId);
+            const reason = document.getElementById('credit-reason').value;
+            const notes = document.getElementById('credit-notes').value;
+            
+            if(!customerId) {
+                alert("Please select a customer!");
+                return;
+            }
+            
+            // Collect items
+            const items = [];
+            let isValid = true;
+            
+            document.querySelectorAll('#credit-items-body tr').forEach(row => {
+                const productId = row.querySelector('.item-name').value;
+                const product = products.find(p => p.id == productId);
+                const desc = row.querySelector('.item-desc').value;
+                const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+                
+                if(!productId) {
+                    isValid = false;
+                    row.querySelector('.item-name').focus();
+                    return;
+                }
+                
+                items.push({
+                    productId: productId,
+                    name: product ? product.name : '',
+                    description: desc,
+                    quantity: qty,
+                    rate: rate,
+                    amount: qty * rate
+                });
+            });
+            
+            if(!isValid) {
+                alert("Please select a product for all items!");
+                return;
+            }
+            
+            const subtotal = parseFloat(document.getElementById('credit-subtotal').textContent) || 0;
+            const tax = parseFloat(document.getElementById('credit-tax').textContent) || 0;
+            const total = parseFloat(document.getElementById('credit-total').textContent) || 0;
+            
+            // Create credit note object
+            const creditNote = {
+                id: Date.now().toString(),
+                creditNoteNumber: cnNumber,
+                date: cnDate,
+                customerId: customerId,
+                customerName: customer ? customer.name : '',
+                referenceId: referenceId,
+                referenceNumber: reference ? reference.invoiceNumber : '',
+                reason: reason,
+                items: items,
+                subtotal: subtotal,
+                tax: tax,
+                total: total,
+                notes: notes,
+                createdAt: new Date().toISOString()
+            };
+            
+            if(currentCreditNote) {
+                // Update existing credit note
+                const index = creditNotes.findIndex(cn => cn.id === currentCreditNote.id);
+                if(index !== -1) {
+                    creditNotes[index] = creditNote;
+                }
+            } else {
+                // Add new credit note
+                creditNotes.unshift(creditNote);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('creditNotes', JSON.stringify(creditNotes));
+            
+            // Update UI
+            loadCreditNoteList();
+            cancelCreditNote();
+            updateDashboard();
+            
+            currentCreditNote = creditNote;
+        }
+        
+        function cancelCreditNote() {
+            document.getElementById('credit-note-list').style.display = 'block';
+            document.getElementById('credit-note-form').style.display = 'none';
+            document.getElementById('new-credit-note').style.display = 'inline-block';
+        }
+        
+        function loadCreditNoteList() {
+            const creditNoteList = document.getElementById('credit-note-list-body');
+            creditNoteList.innerHTML = '';
+            
+            if(creditNotes.length === 0) {
+                creditNoteList.innerHTML = '<tr><td colspan="6" class="text-center">No credit notes found</td></tr>';
+            } else {
+                creditNotes.forEach(creditNote => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${creditNote.creditNoteNumber}</td>
+                        <td>${new Date(creditNote.date).toLocaleDateString()}</td>
+                        <td>${creditNote.customerName}</td>
+                        <td>₹${creditNote.total.toFixed(2)}</td>
+                        <td>${creditNote.referenceNumber}</td>
+                        <td class="no-print">
+                            <button class="btn btn-secondary" onclick="viewCreditNote('${creditNote.id}')">
+                                <i class="material-icons">visibility</i>
+                            </button>
+                            <button class="btn btn-primary" onclick="editCreditNote('${creditNote.id}')">
+                                <i class="material-icons">edit</i>
+                            </button>
+                            <button class="btn btn-warning" onclick="deleteCreditNote('${creditNote.id}')">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </td>
+                    `;
+                    creditNoteList.appendChild(row);
+                });
+            }
+        }
+        
+        function viewCreditNote(creditNoteId) {
+            const creditNote = creditNotes.find(cn => cn.id === creditNoteId);
+            if(!creditNote) return;
+            
+            alert(`Viewing credit note: ${creditNote.creditNoteNumber}\nTotal: ₹${creditNote.total.toFixed(2)}`);
+            // You can implement a detailed view similar to the invoice view
+        }
+        
+        function editCreditNote(creditNoteId) {
+            const creditNote = creditNotes.find(cn => cn.id === creditNoteId);
+            if(!creditNote) return;
+            
+            // Show form
+            document.getElementById('credit-note-list').style.display = 'none';
+            document.getElementById('credit-note-form').style.display = 'block';
+            document.getElementById('new-credit-note').style.display = 'none';
+            
+            // Fill form
+            document.getElementById('credit-note-number').value = creditNote.creditNoteNumber;
+            document.getElementById('credit-note-date').value = creditNote.date;
+            
+            // Populate customer dropdown
+            const customerSelect = document.getElementById('credit-customer-name');
+            customerSelect.innerHTML = '<option value="">Select Customer</option>';
+            customers.forEach(customer => {
+                const option = document.createElement('option');
+                option.value = customer.id;
+                option.textContent = customer.name;
+                if (customer.id === creditNote.customerId) {
+                    option.selected = true;
+                }
+                customerSelect.appendChild(option);
+            });
+            
+            // Populate invoice dropdown
+            const invoiceSelect = document.getElementById('credit-reference');
+            invoiceSelect.innerHTML = '<option value="">Select Invoice</option>';
+            invoices.forEach(invoice => {
+                const option = document.createElement('option');
+                option.value = invoice.id;
+                option.textContent = invoice.invoiceNumber;
+                if (invoice.id === creditNote.referenceId) {
+                    option.selected = true;
+                }
+                invoiceSelect.appendChild(option);
+            });
+            
+            document.getElementById('credit-reason').value = creditNote.reason;
+            document.getElementById('credit-notes').value = creditNote.notes || '';
+            
+            // Fill items
+            const itemsBody = document.getElementById('credit-items-body');
+            itemsBody.innerHTML = '';
+            
+            creditNote.items.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <select class="item-name product-select">
+                            <option value="">Select Product</option>
+                        </select>
+                    </td>
+                    <td><input type="text" class="item-desc" placeholder="Description" value="${item.description || ''}" readonly></td>
+                    <td><input type="number" class="item-qty" value="${item.quantity}" min="1"></td>
+                    <td><input type="number" class="item-rate" placeholder="0.00" value="${item.rate}" readonly></td>
+                    <td class="item-amount">${item.amount.toFixed(2)}</td>
+                    <td class="no-print"><button type="button" class="btn btn-secondary" onclick="removeCreditItem(this)"><i class="material-icons">delete</i></button></td>
+                `;
+                itemsBody.appendChild(row);
+                
+                // Populate product dropdown for this row
+                const productSelect = row.querySelector('.product-select');
+                products.forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product.id;
+                    option.textContent = product.name;
+                    if (product.id === item.productId) {
+                        option.selected = true;
+                    }
+                    productSelect.appendChild(option);
+                });
+                
+                // Add event listeners
+                row.querySelector('.item-qty').addEventListener('input', calculateCreditItemAmount);
+                row.querySelector('.item-rate').addEventListener('input', calculateCreditItemAmount);
+            });
+            
+            // Calculate totals
+            calculateCreditTotal();
+            
+            currentCreditNote = creditNote;
+        }
+        
+        function deleteCreditNote(creditNoteId) {
+            if(confirm("Are you sure you want to delete this credit note?")) {
+                creditNotes = creditNotes.filter(cn => cn.id !== creditNoteId);
+                localStorage.setItem('creditNotes', JSON.stringify(creditNotes));
+                loadCreditNoteList();
+                updateDashboard();
+            }
+        }
+        
+        // Debit Note management functions
+        function newDebitNote() {
+            document.getElementById('debit-note-list').style.display = 'none';
+            document.getElementById('debit-note-form').style.display = 'block';
+            document.getElementById('new-debit-note').style.display = 'none';
+            
+            // Generate DN number
+            const dnNumber = 'DN-' + new Date().getFullYear() + '-' + (debitNotes.length + 1).toString().padStart(4, '0');
+            document.getElementById('debit-note-number').value = dnNumber;
+            
+            // Set today's date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('debit-note-date').value = today;
+            
+            // Clear form
+            document.getElementById('debit-supplier-name').value = '';
+            document.getElementById('debit-reference').value = '';
+            document.getElementById('debit-reason').value = 'Return';
+            document.getElementById('debit-notes').value = '';
+            
+            // Clear items (keep one empty row)
+            const itemsBody = document.getElementById('debit-items-body');
+            itemsBody.innerHTML = '';
+            addDebitItem();
+            
+            // Populate supplier dropdown
+            const supplierSelect = document.getElementById('debit-supplier-name');
+            supplierSelect.innerHTML = '<option value="">Select Supplier</option>';
+            suppliers.forEach(supplier => {
+                const option = document.createElement('option');
+                option.value = supplier.id;
+                option.textContent = supplier.name;
+                supplierSelect.appendChild(option);
+            });
+            
+            // Populate purchase dropdown
+            const purchaseSelect = document.getElementById('debit-reference');
+            purchaseSelect.innerHTML = '<option value="">Select Purchase Order</option>';
+            purchases.forEach(purchase => {
+                const option = document.createElement('option');
+                option.value = purchase.id;
+                option.textContent = purchase.poNumber;
+                purchaseSelect.appendChild(option);
+            });
+            
+            // Populate product dropdowns
+            updateProductSelects();
+            
+            currentDebitNote = null;
+        }
+        
+        function addDebitItem() {
+            const itemsBody = document.getElementById('debit-items-body');
+            const rowCount = itemsBody.children.length + 1;
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <select class="item-name product-select">
+                        <option value="">Select Product</option>
+                    </select>
+                </td>
+                <td><input type="text" class="item-desc" placeholder="Description" readonly></td>
+                <td><input type="number" class="item-qty" value="1" min="1"></td>
+                <td><input type="number" class="item-rate" placeholder="0.00"></td>
+                <td class="item-amount">0.00</td>
+                <td class="no-print"><button type="button" class="btn btn-secondary" onclick="removeDebitItem(this)"><i class="material-icons">delete</i></button></td>
+            `;
+            
+            itemsBody.appendChild(row);
+            
+            // Populate product dropdown for this row
+            const productSelect = row.querySelector('.product-select');
+            products.forEach(product => {
+                const option = document.createElement('option');
+                option.value = product.id;
+                option.textContent = product.name;
+                productSelect.appendChild(option);
+            });
+            
+            // Add event listeners for calculations
+            row.querySelector('.item-qty').addEventListener('input', calculateDebitItemAmount);
+            row.querySelector('.item-rate').addEventListener('input', calculateDebitItemAmount);
+        }
+        
+        function removeDebitItem(button) {
+            const row = button.closest('tr');
+            const itemsBody = document.getElementById('debit-items-body');
+            
+            if(itemsBody.children.length > 1) {
+                row.remove();
+                calculateDebitTotal();
+            } else {
+                alert("At least one item is required!");
+            }
+        }
+        
+        function calculateDebitItemAmount() {
+            const row = this.closest('tr');
+            const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+            const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+            const amount = qty * rate;
+            
+            row.querySelector('.item-amount').textContent = amount.toFixed(2);
+            calculateDebitTotal();
+        }
+        
+        function calculateDebitTotal() {
+            let subtotal = 0;
+            
+            document.querySelectorAll('#debit-items-body tr').forEach(row => {
+                const amount = parseFloat(row.querySelector('.item-amount').textContent) || 0;
+                subtotal += amount;
+            });
+            
+            const tax = subtotal * 0.10; // 10% tax
+            const total = subtotal + tax;
+            
+            document.getElementById('debit-subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('debit-tax').textContent = tax.toFixed(2);
+            document.getElementById('debit-total').textContent = total.toFixed(2);
+        }
+        
+        function saveDebitNote() {
+            const dnNumber = document.getElementById('debit-note-number').value;
+            const dnDate = document.getElementById('debit-note-date').value;
+            const supplierId = document.getElementById('debit-supplier-name').value;
+            const supplier = suppliers.find(s => s.id == supplierId);
+            const referenceId = document.getElementById('debit-reference').value;
+            const reference = purchases.find(p => p.id == referenceId);
+            const reason = document.getElementById('debit-reason').value;
+            const notes = document.getElementById('debit-notes').value;
+            
+            if(!supplierId) {
+                alert("Please select a supplier!");
+                return;
+            }
+            
+            // Collect items
+            const items = [];
+            let isValid = true;
+            
+            document.querySelectorAll('#debit-items-body tr').forEach(row => {
+                const productId = row.querySelector('.item-name').value;
+                const product = products.find(p => p.id == productId);
+                const desc = row.querySelector('.item-desc').value;
+                const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+                
+                if(!productId) {
+                    isValid = false;
+                    row.querySelector('.item-name').focus();
+                    return;
+                }
+                
+                items.push({
+                    productId: productId,
+                    name: product ? product.name : '',
+                    description: desc,
+                    quantity: qty,
+                    rate: rate,
+                    amount: qty * rate
+                });
+            });
+            
+            if(!isValid) {
+                alert("Please select a product for all items!");
+                return;
+            }
+            
+            const subtotal = parseFloat(document.getElementById('debit-subtotal').textContent) || 0;
+            const tax = parseFloat(document.getElementById('debit-tax').textContent) || 0;
+            const total = parseFloat(document.getElementById('debit-total').textContent) || 0;
+            
+            // Create debit note object
+            const debitNote = {
+                id: Date.now().toString(),
+                debitNoteNumber: dnNumber,
+                date: dnDate,
+                supplierId: supplierId,
+                supplierName: supplier ? supplier.name : '',
+                referenceId: referenceId,
+                referenceNumber: reference ? reference.poNumber : '',
+                reason: reason,
+                items: items,
+                subtotal: subtotal,
+                tax: tax,
+                total: total,
+                notes: notes,
+                createdAt: new Date().toISOString()
+            };
+            
+            if(currentDebitNote) {
+                // Update existing debit note
+                const index = debitNotes.findIndex(dn => dn.id === currentDebitNote.id);
+                if(index !== -1) {
+                    debitNotes[index] = debitNote;
+                }
+            } else {
+                // Add new debit note
+                debitNotes.unshift(debitNote);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('debitNotes', JSON.stringify(debitNotes));
+            
+            // Update UI
+            loadDebitNoteList();
+            cancelDebitNote();
+            updateDashboard();
+            
+            currentDebitNote = debitNote;
+        }
+        
+        function cancelDebitNote() {
+            document.getElementById('debit-note-list').style.display = 'block';
+            document.getElementById('debit-note-form').style.display = 'none';
+            document.getElementById('new-debit-note').style.display = 'inline-block';
+        }
+        
+        function loadDebitNoteList() {
+            const debitNoteList = document.getElementById('debit-note-list-body');
+            debitNoteList.innerHTML = '';
+            
+            if(debitNotes.length === 0) {
+                debitNoteList.innerHTML = '<tr><td colspan="6" class="text-center">No debit notes found</td></tr>';
+            } else {
+                debitNotes.forEach(debitNote => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${debitNote.debitNoteNumber}</td>
+                        <td>${new Date(debitNote.date).toLocaleDateString()}</td>
+                        <td>${debitNote.supplierName}</td>
+                        <td>₹${debitNote.total.toFixed(2)}</td>
+                        <td>${debitNote.referenceNumber}</td>
+                        <td class="no-print">
+                            <button class="btn btn-secondary" onclick="viewDebitNote('${debitNote.id}')">
+                                <i class="material-icons">visibility</i>
+                            </button>
+                            <button class="btn btn-primary" onclick="editDebitNote('${debitNote.id}')">
+                                <i class="material-icons">edit</i>
+                            </button>
+                            <button class="btn btn-warning" onclick="deleteDebitNote('${debitNote.id}')">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </td>
+                    `;
+                    debitNoteList.appendChild(row);
+                });
+            }
+        }
+        
+        function viewDebitNote(debitNoteId) {
+            const debitNote = debitNotes.find(dn => dn.id === debitNoteId);
+            if(!debitNote) return;
+            
+            alert(`Viewing debit note: ${debitNote.debitNoteNumber}\nTotal: ₹${debitNote.total.toFixed(2)}`);
+            // You can implement a detailed view similar to the invoice view
+        }
+        
+        function editDebitNote(debitNoteId) {
+            const debitNote = debitNotes.find(dn => dn.id === debitNoteId);
+            if(!debitNote) return;
+            
+            // Show form
+            document.getElementById('debit-note-list').style.display = 'none';
+            document.getElementById('debit-note-form').style.display = 'block';
+            document.getElementById('new-debit-note').style.display = 'none';
+            
+            // Fill form
+            document.getElementById('debit-note-number').value = debitNote.debitNoteNumber;
+            document.getElementById('debit-note-date').value = debitNote.date;
+            
+            // Populate supplier dropdown
+            const supplierSelect = document.getElementById('debit-supplier-name');
+            supplierSelect.innerHTML = '<option value="">Select Supplier</option>';
+            suppliers.forEach(supplier => {
+                const option = document.createElement('option');
+                option.value = supplier.id;
+                option.textContent = supplier.name;
+                if (supplier.id === debitNote.supplierId) {
+                    option.selected = true;
+                }
+                supplierSelect.appendChild(option);
+            });
+            
+            // Populate purchase dropdown
+            const purchaseSelect = document.getElementById('debit-reference');
+            purchaseSelect.innerHTML = '<option value="">Select Purchase Order</option>';
+            purchases.forEach(purchase => {
+                const option = document.createElement('option');
+                option.value = purchase.id;
+                option.textContent = purchase.poNumber;
+                if (purchase.id === debitNote.referenceId) {
+                    option.selected = true;
+                }
+                purchaseSelect.appendChild(option);
+            });
+            
+            document.getElementById('debit-reason').value = debitNote.reason;
+            document.getElementById('debit-notes').value = debitNote.notes || '';
+            
+            // Fill items
+            const itemsBody = document.getElementById('debit-items-body');
+            itemsBody.innerHTML = '';
+            
+            debitNote.items.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <select class="item-name product-select">
+                            <option value="">Select Product</option>
+                        </select>
+                    </td>
+                    <td><input type="text" class="item-desc" placeholder="Description" value="${item.description || ''}" readonly></td>
+                    <td><input type="number" class="item-qty" value="${item.quantity}" min="1"></td>
+                    <td><input type="number" class="item-rate" placeholder="0.00" value="${item.rate}"></td>
+                    <td class="item-amount">${item.amount.toFixed(2)}</td>
+                    <td class="no-print"><button type="button" class="btn btn-secondary" onclick="removeDebitItem(this)"><i class="material-icons">delete</i></button></td>
+                `;
+                itemsBody.appendChild(row);
+                
+                // Populate product dropdown for this row
+                const productSelect = row.querySelector('.product-select');
+                products.forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product.id;
+                    option.textContent = product.name;
+                    if (product.id === item.productId) {
+                        option.selected = true;
+                    }
+                    productSelect.appendChild(option);
+                });
+                
+                // Add event listeners
+                row.querySelector('.item-qty').addEventListener('input', calculateDebitItemAmount);
+                row.querySelector('.item-rate').addEventListener('input', calculateDebitItemAmount);
+            });
+            
+            // Calculate totals
+            calculateDebitTotal();
+            
+            currentDebitNote = debitNote;
+        }
+        
+        function deleteDebitNote(debitNoteId) {
+            if(confirm("Are you sure you want to delete this debit note?")) {
+                debitNotes = debitNotes.filter(dn => dn.id !== debitNoteId);
+                localStorage.setItem('debitNotes', JSON.stringify(debitNotes));
+                loadDebitNoteList();
+                updateDashboard();
+            }
+        }
+        
+        // Customer management functions
+        function newCustomer() {
+            document.getElementById('customer-list').style.display = 'none';
+            document.getElementById('customer-form').style.display = 'block';
+            document.getElementById('new-customer').style.display = 'none';
+            
+            // Clear form
+            document.getElementById('customer-name-input').value = '';
+            document.getElementById('customer-phone-input').value = '';
+            document.getElementById('customer-email-input').value = '';
+            document.getElementById('customer-gstin').value = '';
+            document.getElementById('customer-address-input').value = '';
+            document.getElementById('customer-city').value = '';
+            document.getElementById('customer-state').value = '';
+            document.getElementById('customer-pincode').value = '';
+            document.getElementById('customer-country').value = 'India';
+            
+            currentCustomer = null;
+        }
+        
+        function saveCustomer() {
+            const name = document.getElementById('customer-name-input').value;
+            const phone = document.getElementById('customer-phone-input').value;
+            const email = document.getElementById('customer-email-input').value;
+            const gstin = document.getElementById('customer-gstin').value;
+            const address = document.getElementById('customer-address-input').value;
+            const city = document.getElementById('customer-city').value;
+            const state = document.getElementById('customer-state').value;
+            const pincode = document.getElementById('customer-pincode').value;
+            const country = document.getElementById('customer-country').value;
+            
+            if(!name || !phone) {
+                alert("Name and Phone are required fields!");
+                return;
+            }
+            
+            // Create customer object
+            const customer = {
+                id: Date.now().toString(),
+                name: name,
+                phone: phone,
+                email: email,
+                gstin: gstin,
+                address: address,
+                city: city,
+                state: state,
+                pincode: pincode,
+                country: country,
+                createdAt: new Date().toISOString()
+            };
+            
+            if(currentCustomer) {
+                // Update existing customer
+                const index = customers.findIndex(c => c.id === currentCustomer.id);
+                if(index !== -1) {
+                    customers[index] = customer;
+                }
+            } else {
+                // Add new customer
+                customers.unshift(customer);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('customers', JSON.stringify(customers));
+            
+            // Update UI
+            loadCustomerList();
+            cancelCustomer();
+            updateCustomerDropdowns();
+        }
+        
+        function cancelCustomer() {
+            document.getElementById('customer-list').style.display = 'block';
+            document.getElementById('customer-form').style.display = 'none';
+            document.getElementById('new-customer').style.display = 'inline-block';
+        }
+        
+        function loadCustomerList() {
+            const customerList = document.getElementById('customer-list-body');
+            customerList.innerHTML = '';
+            
+            if(customers.length === 0) {
+                customerList.innerHTML = '<tr><td colspan="6" class="text-center">No customers found</td></tr>';
+            } else {
+                customers.forEach(customer => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${customer.name}</td>
+                        <td>${customer.phone}</td>
+                        <td>${customer.email || '-'}</td>
+                        <td>${customer.address ? customer.address.substring(0, 20) + (customer.address.length > 20 ? '...' : '') : '-'}</td>
+                        <td>${customer.gstin || '-'}</td>
+                        <td class="no-print">
+                            <button class="btn btn-primary" onclick="editCustomer('${customer.id}')">
+                                <i class="material-icons">edit</i>
+                            </button>
+                            <button class="btn btn-warning" onclick="deleteCustomer('${customer.id}')">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </td>
+                    `;
+                    customerList.appendChild(row);
+                });
+            }
+        }
+        
+        function editCustomer(customerId) {
+            const customer = customers.find(c => c.id === customerId);
+            if(!customer) return;
+            
+            // Show form
+            document.getElementById('customer-list').style.display = 'none';
+            document.getElementById('customer-form').style.display = 'block';
+            document.getElementById('new-customer').style.display = 'none';
+            
+            // Fill form
+            document.getElementById('customer-name-input').value = customer.name;
+            document.getElementById('customer-phone-input').value = customer.phone;
+            document.getElementById('customer-email-input').value = customer.email || '';
+            document.getElementById('customer-gstin').value = customer.gstin || '';
+            document.getElementById('customer-address-input').value = customer.address || '';
+            document.getElementById('customer-city').value = customer.city || '';
+            document.getElementById('customer-state').value = customer.state || '';
+            document.getElementById('customer-pincode').value = customer.pincode || '';
+            document.getElementById('customer-country').value = customer.country || 'India';
+            
+            currentCustomer = customer;
+        }
+        
+        function deleteCustomer(customerId) {
+            if(confirm("Are you sure you want to delete this customer?")) {
+                // Check if customer is referenced in any invoices
+                const hasInvoices = invoices.some(inv => inv.customerId === customerId);
+                
+                if(hasInvoices) {
+                    alert("This customer cannot be deleted because they have associated invoices.");
+                    return;
+                }
+                
+                customers = customers.filter(c => c.id !== customerId);
+                localStorage.setItem('customers', JSON.stringify(customers));
+                loadCustomerList();
+                updateCustomerDropdowns();
+            }
+        }
+        
+        function updateCustomerDropdowns() {
+            // Update customer dropdowns in all forms
+            const customerSelects = document.querySelectorAll('.customer-select');
+            
+            customerSelects.forEach(select => {
+                const currentValue = select.value;
+                select.innerHTML = '<option value="">Select Customer</option>';
+                
+                customers.forEach(customer => {
+                    const option = document.createElement('option');
+                    option.value = customer.id;
+                    option.textContent = customer.name;
+                    select.appendChild(option);
+                });
+                
+                // Restore previous selection if it still exists
+                if (customers.some(c => c.id == currentValue)) {
+                    select.value = currentValue;
+                }
+            });
+        }
+        
+        // Supplier management functions
+        function newSupplier() {
+            document.getElementById('supplier-list').style.display = 'none';
+            document.getElementById('supplier-form').style.display = 'block';
+            document.getElementById('new-supplier').style.display = 'none';
+            
+            // Clear form
+            document.getElementById('supplier-name-input').value = '';
+            document.getElementById('supplier-phone-input').value = '';
+            document.getElementById('supplier-email-input').value = '';
+            document.getElementById('supplier-gstin').value = '';
+            document.getElementById('supplier-address-input').value = '';
+            document.getElementById('supplier-city').value = '';
+            document.getElementById('supplier-state').value = '';
+            document.getElementById('supplier-pincode').value = '';
+            document.getElementById('supplier-country').value = 'India';
+            
+            currentSupplier = null;
+        }
+        
+        function saveSupplier() {
+            const name = document.getElementById('supplier-name-input').value;
+            const phone = document.getElementById('supplier-phone-input').value;
+            const email = document.getElementById('supplier-email-input').value;
+            const gstin = document.getElementById('supplier-gstin').value;
+            const address = document.getElementById('supplier-address-input').value;
+            const city = document.getElementById('supplier-city').value;
+            const state = document.getElementById('supplier-state').value;
+            const pincode = document.getElementById('supplier-pincode').value;
+            const country = document.getElementById('supplier-country').value;
+            
+            if(!name || !phone) {
+                alert("Name and Phone are required fields!");
+                return;
+            }
+            
+            // Create supplier object
+            const supplier = {
+                id: Date.now().toString(),
+                name: name,
+                phone: phone,
+                email: email,
+                gstin: gstin,
+                address: address,
+                city: city,
+                state: state,
+                pincode: pincode,
+                country: country,
+                createdAt: new Date().toISOString()
+            };
+            
+            if(currentSupplier) {
+                // Update existing supplier
+                const index = suppliers.findIndex(s => s.id === currentSupplier.id);
+                if(index !== -1) {
+                    suppliers[index] = supplier;
+                }
+            } else {
+                // Add new supplier
+                suppliers.unshift(supplier);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('suppliers', JSON.stringify(suppliers));
+            
+            // Update UI
+            loadSupplierList();
+            cancelSupplier();
+            updateSupplierDropdowns();
+        }
+        
+        function cancelSupplier() {
+            document.getElementById('supplier-list').style.display = 'block';
+            document.getElementById('supplier-form').style.display = 'none';
+            document.getElementById('new-supplier').style.display = 'inline-block';
+        }
+        
+        function loadSupplierList() {
+            const supplierList = document.getElementById('supplier-list-body');
+            supplierList.innerHTML = '';
+            
+            if(suppliers.length === 0) {
+                supplierList.innerHTML = '<tr><td colspan="6" class="text-center">No suppliers found</td></tr>';
+            } else {
+                suppliers.forEach(supplier => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${supplier.name}</td>
+                        <td>${supplier.phone}</td>
+                        <td>${supplier.email || '-'}</td>
+                        <td>${supplier.address ? supplier.address.substring(0, 20) + (supplier.address.length > 20 ? '...' : '') : '-'}</td>
+                        <td>${supplier.gstin || '-'}</td>
+                        <td class="no-print">
+                            <button class="btn btn-primary" onclick="editSupplier('${supplier.id}')">
+                                <i class="material-icons">edit</i>
+                            </button>
+                            <button class="btn btn-warning" onclick="deleteSupplier('${supplier.id}')">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </td>
+                    `;
+                    supplierList.appendChild(row);
+                });
+            }
+        }
+        
+        function editSupplier(supplierId) {
+            const supplier = suppliers.find(s => s.id === supplierId);
+            if(!supplier) return;
+            
+            // Show form
+            document.getElementById('supplier-list').style.display = 'none';
+            document.getElementById('supplier-form').style.display = 'block';
+            document.getElementById('new-supplier').style.display = 'none';
+            
+            // Fill form
+            document.getElementById('supplier-name-input').value = supplier.name;
+            document.getElementById('supplier-phone-input').value = supplier.phone;
+            document.getElementById('supplier-email-input').value = supplier.email || '';
+            document.getElementById('supplier-gstin').value = supplier.gstin || '';
+            document.getElementById('supplier-address-input').value = supplier.address || '';
+            document.getElementById('supplier-city').value = supplier.city || '';
+            document.getElementById('supplier-state').value = supplier.state || '';
+            document.getElementById('supplier-pincode').value = supplier.pincode || '';
+            document.getElementById('supplier-country').value = supplier.country || 'India';
+            
+            currentSupplier = supplier;
+        }
+        
+        function deleteSupplier(supplierId) {
+            if(confirm("Are you sure you want to delete this supplier?")) {
+                // Check if supplier is referenced in any purchases
+                const hasPurchases = purchases.some(p => p.supplierId === supplierId);
+                
+                if(hasPurchases) {
+                    alert("This supplier cannot be deleted because they have associated purchase orders.");
+                    return;
+                }
+                
+                suppliers = suppliers.filter(s => s.id !== supplierId);
+                localStorage.setItem('suppliers', JSON.stringify(suppliers));
+                loadSupplierList();
+                updateSupplierDropdowns();
+            }
+        }
+        
+        function updateSupplierDropdowns() {
+            // Update supplier dropdowns in all forms
+            const supplierSelects = document.querySelectorAll('.supplier-select');
+            
+            supplierSelects.forEach(select => {
+                const currentValue = select.value;
+                select.innerHTML = '<option value="">Select Supplier</option>';
+                
+                suppliers.forEach(supplier => {
+                    const option = document.createElement('option');
+                    option.value = supplier.id;
+                    option.textContent = supplier.name;
+                    select.appendChild(option);
+                });
+                
+                // Restore previous selection if it still exists
+                if (suppliers.some(s => s.id == currentValue)) {
+                    select.value = currentValue;
+                }
+            });
+        }
+        
+        // Product management functions
+        function newProduct() {
+            document.getElementById('product-list').style.display = 'none';
+            document.getElementById('product-form').style.display = 'block';
+            document.getElementById('new-product').style.display = 'none';
+            
+            // Clear form
+            document.getElementById('product-name').value = '';
+            document.getElementById('product-hsn').value = '';
+            document.getElementById('product-description').value = '';
+            document.getElementById('product-rate').value = '';
+            document.getElementById('product-tax').value = '10';
+            document.getElementById('product-stock').value = '0';
+            document.getElementById('product-unit').value = 'Nos';
+            
+            currentProduct = null;
+        }
+        
+        function saveProduct() {
+            const name = document.getElementById('product-name').value;
+            const hsn = document.getElementById('product-hsn').value;
+            const description = document.getElementById('product-description').value;
+            const rate = parseFloat(document.getElementById('product-rate').value) || 0;
+            const tax = parseFloat(document.getElementById('product-tax').value) || 0;
+            const stock = parseFloat(document.getElementById('product-stock').value) || 0;
+            const unit = document.getElementById('product-unit').value;
+            
+            if(!name || isNaN(rate)) {
+                alert("Name and Rate are required fields!");
+                return;
+            }
+            
+            // Create product object
+            const product = {
+                id: Date.now().toString(),
+                name: name,
+                hsn: hsn,
+                description: description,
+                rate: rate,
+                tax: tax,
+                stock: stock,
+                unit: unit,
+                createdAt: new Date().toISOString()
+            };
+            
+            if(currentProduct) {
+                // Update existing product
+                const index = products.findIndex(p => p.id === currentProduct.id);
+                if(index !== -1) {
+                    products[index] = product;
+                }
+            } else {
+                // Add new product
+                products.unshift(product);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('products', JSON.stringify(products));
+            
+            // Update UI
+            loadProductList();
+            cancelProduct();
+            updateProductDropdowns();
+        }
+        
+        function cancelProduct() {
+            document.getElementById('product-list').style.display = 'block';
+            document.getElementById('product-form').style.display = 'none';
+            document.getElementById('new-product').style.display = 'inline-block';
+        }
+        
+        function loadProductList() {
+            const productList = document.getElementById('product-list-body');
+            productList.innerHTML = '';
+            
+            if(products.length === 0) {
+                productList.innerHTML = '<tr><td colspan="6" class="text-center">No products found</td></tr>';
+            } else {
+                products.forEach(product => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${product.name}</td>
+                        <td>${product.description || '-'}</td>
+                        <td>${product.hsn || '-'}</td>
+                        <td>₹${product.rate.toFixed(2)}</td>
+                        <td>${product.stock} ${product.unit}</td>
+                        <td class="no-print">
+                            <button class="btn btn-primary" onclick="editProduct('${product.id}')">
+                                <i class="material-icons">edit</i>
+                            </button>
+                            <button class="btn btn-warning" onclick="deleteProduct('${product.id}')">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </td>
+                    `;
+                    productList.appendChild(row);
+                });
+            }
+        }
+        
+        function editProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if(!product) return;
+            
+            // Show form
+            document.getElementById('product-list').style.display = 'none';
+            document.getElementById('product-form').style.display = 'block';
+            document.getElementById('new-product').style.display = 'none';
+            
+            // Fill form
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-hsn').value = product.hsn || '';
+            document.getElementById('product-description').value = product.description || '';
+            document.getElementById('product-rate').value = product.rate;
+            document.getElementById('product-tax').value = product.tax || 10;
+            document.getElementById('product-stock').value = product.stock || 0;
+            document.getElementById('product-unit').value = product.unit || 'Nos';
+            
+            currentProduct = product;
+        }
+        
+        function deleteProduct(productId) {
+            if(confirm("Are you sure you want to delete this product?")) {
+                // Check if product is referenced in any transactions
+                const hasReferences = 
+                    invoices.some(inv => inv.items.some(item => item.productId === productId)) ||
+                    purchases.some(p => p.items.some(item => item.productId === productId)) ||
+                    creditNotes.some(cn => cn.items.some(item => item.productId === productId)) ||
+                    debitNotes.some(dn => dn.items.some(item => item.productId === productId));
+                
+                if(hasReferences) {
+                    alert("This product cannot be deleted because it is referenced in transactions.");
+                    return;
+                }
+                
+                products = products.filter(p => p.id !== productId);
+                localStorage.setItem('products', JSON.stringify(products));
+                loadProductList();
+                updateProductDropdowns();
+            }
+        }
+        
+        function updateProductDropdowns() {
+            // Update product dropdowns in all forms
+            const productSelects = document.querySelectorAll('.product-select');
+            
+            productSelects.forEach(select => {
+                const currentValue = select.value;
+                select.innerHTML = '<option value="">Select Product</option>';
+                
+                products.forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product.id;
+                    option.textContent = product.name;
+                    select.appendChild(option);
+                });
+                
+                // Restore previous selection if it still exists
+                if (products.some(p => p.id == currentValue)) {
+                    select.value = currentValue;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
